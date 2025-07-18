@@ -19,7 +19,7 @@ export function Card({ children, style, props }: CardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.quinary,
     borderRadius: radius.regular,
     padding: spacing.m,
   },

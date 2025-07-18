@@ -10,7 +10,8 @@ type TextVariants =
   | "sectionTitle"
   | "itemTitle"
   | "itemDescription"
-  | "button";
+  | "button"
+  | "buttonSecondary";
 
 interface TextProps {
   children?: React.ReactNode;
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: colors.defaultText,
-    marginBottom: 24,
+    marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 18,
@@ -74,5 +75,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: colors.secondary,
+  },
+  buttonSecondary: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.primary,
   },
 });

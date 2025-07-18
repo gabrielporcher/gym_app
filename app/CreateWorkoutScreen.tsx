@@ -1,5 +1,4 @@
 import {
-  Card,
   Icon,
   List,
   ListItemType,
@@ -7,9 +6,11 @@ import {
   Screen,
   Text,
 } from "@/components";
+import { colors, radius, spacing } from "@/components/styles";
 import type { Ionicons } from "@expo/vector-icons";
-import { Stack } from "expo-router";
-import { StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 type IoniconName = React.ComponentProps<typeof Ionicons>["name"];
 
@@ -44,27 +45,25 @@ const popularModels: {
     tags: ["3 days/week", "Beginner"],
   },
   {
-    icon: "body-outline",
+    icon: "swap-vertical-outline",
     title: "Upper/Lower",
     description: "Complete segment workout each session",
     tags: ["4 days/week", "Beginner"],
   },
 ];
 
-function handleItemPressed(item: ListItemType) {
-  console.log("Item pressed: ", item);
-}
-
 export default function CreateWorkoutScreen() {
+  const router = useRouter();
+
+  function handleItemPressed(item: ListItemType | { title: string }) {
+    router.navigate({
+      pathname: "/DefineWorkoutScreen",
+      params: { workout: JSON.stringify(item) }
+    });
+  }
+
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: "Create Workout",
-          headerShadowVisible: false,
-          headerTitleAlign: "center",
-        }}
-      />
       <Screen scrollable>
         <ProgressBar
           totalSteps={3}
@@ -85,10 +84,13 @@ export default function CreateWorkoutScreen() {
         />
 
         <Text preset="sectionTitle">Custom</Text>
-        <Card style={styles.customCard}>
+        <TouchableOpacity
+          style={styles.customCard}
+          onPress={() => handleItemPressed({ title: "Custom" })}
+        >
           <Icon name="add-outline" size={24} style={styles.addIcon} />
-          <Text style={styles.customCardText}>Create Custom Model</Text>
-        </Card>
+          <Text preset="itemTitle">Create Custom Model</Text>
+        </TouchableOpacity>
       </Screen>
     </>
   );
@@ -98,18 +100,14 @@ const styles = StyleSheet.create({
   customCard: {
     borderWidth: 1,
     borderStyle: "dashed",
-    borderColor: "#C4C4C4",
-    borderRadius: 8,
+    borderColor: colors.octonary,
+    borderRadius: radius.regular,
     padding: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
   addIcon: {
-    marginRight: 8,
-  },
-  customCardText: {
-    fontSize: 16,
-    fontWeight: "bold",
+    marginRight: spacing.s,
   },
 });
