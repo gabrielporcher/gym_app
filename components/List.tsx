@@ -1,3 +1,4 @@
+import { IconVariants } from "@/components";
 import type { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
@@ -9,11 +10,18 @@ import { View } from "./View";
 
 type IoniconName = React.ComponentProps<typeof Ionicons>["name"];
 
+export type PredefinedModelType = {
+  icon: string;
+  title: string;
+};
+
+
 export type ListItemType = {
-  icon: IoniconName;
+  icon: IoniconName | IconVariants;
   title: string;
   description: string;
   tags: string[];
+  predefinedModel?: PredefinedModelType[];
 };
 
 interface ListItemProps {
@@ -74,7 +82,7 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
     alignItems: "center",
-    padding: spacing.m,
+    padding: spacing.card,
     //backgroundColor: colors.quinary,
     borderRadius: radius.regular,
     borderColor: colors.quinary,

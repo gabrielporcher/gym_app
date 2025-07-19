@@ -25,6 +25,8 @@ export const spacing = {
   xl: 32,
   xxl: 40,
   xxxl: 48,
+  card: 16,
+  section: 24,
 };
 
 export const radius = {
