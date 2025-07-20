@@ -1,37 +1,48 @@
 import {
+  Button,
   Card,
   Icon,
   List,
-  ListItemType,
   ProgressBar,
   Screen,
   Text,
-  View,
+  View
 } from "@/components";
 import { colors, spacing } from "@/components/styles";
-import { useLocalSearchParams } from "expo-router";
+import type { ListItemType } from "@/constants/ListModels";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
 
 export default function DefineWorkoutScreen() {
   const { workout } = useLocalSearchParams();
   const parsedWorkout = JSON.parse(workout as string);
+  const router = useRouter();
 
   const generatedModels = parsedWorkout?.predefinedModel?.map((model: any) => ({
     icon: model.icon,
-    title: model.title,
+    title: `Workout ${model.title}`,
     description: "Tap to asign exercises",
     tags: ["Customizable"],
   }));
 
   function handleItemPressed(item: ListItemType | { title: string }) {
     console.log("Item pressed:", item);
+    router.navigate({
+      pathname: "/SelectExercises",
+      params: { workout: JSON.stringify(item) },
+    });
+  }
+
+  function saveWorkout() {
+    console.log("Workout saved:", parsedWorkout);
+    // Implement save logic here
   }
 
   return (
     <Screen scrollable>
       <ProgressBar
-        totalSteps={3}
+        totalSteps={4}
         currentStep={2}
         currentPage="Define workouts"
       />
@@ -48,7 +59,7 @@ export default function DefineWorkoutScreen() {
 
       <Text preset="title">Define your workouts</Text>
       <Text preset="subtitle">
-        Assign muscle groups to each workout day.{"\n"}Tap to custiomize
+        Assign muscle groups to each workout day.{"\n"}Tap to customize
         exercises
       </Text>
 
@@ -58,6 +69,7 @@ export default function DefineWorkoutScreen() {
         onPress={handleItemPressed}
         disableScroll
       />
+      <Button title="Continue" onPress={saveWorkout} style={styles.button} />
     </Screen>
   );
 }
@@ -77,4 +89,7 @@ const styles = StyleSheet.create({
   icon: {
     alignItems: "flex-end",
   },
+  button: {
+    marginTop: spacing.m,
+  }
 });

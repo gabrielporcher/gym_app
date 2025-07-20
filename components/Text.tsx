@@ -11,7 +11,8 @@ type TextVariants =
   | "itemTitle"
   | "itemDescription"
   | "button"
-  | "buttonSecondary";
+  | "buttonSecondary"
+  | "defaultLight";
 
 interface TextProps {
   children?: React.ReactNode;
@@ -42,6 +43,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.defaultText,
     fontWeight: "bold",
+  },
+  defaultLight: {
+    fontSize: 14,
+    color: colors.secondary,
   },
   title: {
     fontSize: 24,

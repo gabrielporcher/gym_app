@@ -1,5 +1,4 @@
-import { IconVariants } from "@/components";
-import type { Ionicons } from "@expo/vector-icons";
+import { ListItemType } from "@/constants/ListModels";
 import React from "react";
 import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Chip } from "./Chip";
@@ -7,22 +6,6 @@ import { Icon } from "./Icon";
 import { colors, radius, spacing } from "./styles";
 import { Text } from "./Text";
 import { View } from "./View";
-
-type IoniconName = React.ComponentProps<typeof Ionicons>["name"];
-
-export type PredefinedModelType = {
-  icon: string;
-  title: string;
-};
-
-
-export type ListItemType = {
-  icon: IoniconName | IconVariants;
-  title: string;
-  description: string;
-  tags: string[];
-  predefinedModel?: PredefinedModelType[];
-};
 
 interface ListItemProps {
   item: ListItemType;

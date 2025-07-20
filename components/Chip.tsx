@@ -16,21 +16,26 @@ export function Chip({
   style,
   active = false,
   pressable = false,
+  onPress,
 }: ChipProps) {
   return (
     <TouchableOpacity
-      style={[styles.chip, style]}
+      style={[
+        styles.chip,
+        { backgroundColor: active ? colors.primary : colors.quinary },
+        style,
+      ]}
       disabled={!pressable}
-      onPress={pressable ? () => console.log(text) : undefined}
+      onPress={pressable ? () => onPress && onPress() : undefined}
     >
-      <Text>{text}</Text>
+      <Text preset={active ? "defaultLight" : "default"}>{text}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   chip: {
-    backgroundColor: colors.quinary,
+    //backgroundColor: colors.quinary,
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.s,
     borderRadius: radius.round,

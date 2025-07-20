@@ -5,6 +5,7 @@ export * from './Icon';
 export * from './List';
 export * from './ProgressBar';
 export * from './Screen';
+export * from './SearchBar';
 export * from './Text';
 export * from './View';
 

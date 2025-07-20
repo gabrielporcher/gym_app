@@ -44,6 +44,14 @@ export default function RootLayout() {
             headerTitleAlign: "center",
           }}
         />
+        <Stack.Screen
+          name={"SelectExercises"}
+          options={{
+            title: "Select Exercises",
+            headerShadowVisible: false,
+            headerTitleAlign: "center",
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
