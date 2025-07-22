@@ -87,7 +87,11 @@ export const muscleGroups: string[] = [
   "Shoulders",
   "Biceps",
   "Triceps",
+  "Forearms",
   "Legs",
+  "Quads",
+  "Glutes",
+  "Abs"
 ];
 
 type MuscleIntensity = {

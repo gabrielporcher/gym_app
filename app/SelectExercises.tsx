@@ -1,9 +1,9 @@
-import { Chip, List, ProgressBar, Screen, SearchBar } from "@/components";
+import { Button, Chip, List, ProgressBar, Screen, SearchBar, Text } from "@/components";
 import { spacing } from "@/components/styles";
 import {
   exercisesList,
   muscleGroups,
-  MuscleListItemType
+  MuscleListItemType,
 } from "@/constants/ListModels";
 import React, { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
@@ -12,7 +12,9 @@ export default function SelectExercises() {
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(
     null
   );
-  const [selectedExercises, setSelectedExercises] = useState<MuscleListItemType[]>([])
+  const [selectedExercises, setSelectedExercises] = useState<
+    MuscleListItemType[]
+  >([]);
 
   let listData = selectedMuscleGroup
     ? exercisesList.filter((item) => item.agonistMuscle === selectedMuscleGroup)
@@ -32,11 +34,23 @@ export default function SelectExercises() {
       if (prev.some((ex) => ex.id === item.id)) {
         return prev.filter((ex) => ex.id !== item.id);
       }
-      return [...prev, item as MuscleListItemType];
-    })
+      return [...prev, { ...item, series: 3, reps: 8 }];
+    });
   }
 
-  console.log(selectedExercises)
+  function handleSetsChange(item: MuscleListItemType, value: number) {
+    setSelectedExercises((prev) =>
+      prev.map((ex) => (ex.id === item.id ? { ...ex, series: value } : ex))
+    );
+  }
+
+  function handleRepsChange(item: MuscleListItemType, value: number) {
+    setSelectedExercises((prev) =>
+      prev.map((ex) => (ex.id === item.id ? { ...ex, reps: value } : ex))
+    );
+  }
+
+  console.log(selectedExercises);
 
   return (
     <Screen scrollable>
@@ -64,13 +78,17 @@ export default function SelectExercises() {
         )}
       />
 
+      <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
       <List
         selectableList
         data={listData}
         onPress={handleItemPressed}
         disableScroll
         selectedItems={selectedExercises}
+        onSetsChange={handleSetsChange}
+        onRepsChange={handleRepsChange}
       />
+      <Button title={'teste'} onPress={() => {}} />
     </Screen>
   );
 }

@@ -12,12 +12,20 @@ interface SelectableListProps {
   item: MuscleListItemType;
   onPress?: (item: MuscleListItemType) => void;
   isSelected?: boolean;
+  sets?: number;
+  reps?: number;
+  onSetsChange?: (value: number) => void;
+  onRepsChange?: (value: number) => void;
 }
 
 export function SelectableListItem({
   item,
   onPress,
   isSelected = false,
+  sets = 3,
+  reps = 8,
+  onSetsChange,
+  onRepsChange,
 }: SelectableListProps) {
   return (
     <TouchableOpacity
@@ -55,11 +63,11 @@ export function SelectableListItem({
         <View style={styles.expandedContainer}>
           <View style={styles.expandedSection}>
             <Text preset="itemTitle">Sets:</Text>
-            <IntegerInput value={1} onChange={() => {}} />
+            <IntegerInput value={sets} onChange={(v) => onSetsChange?.(v)} />
           </View>
           <View style={styles.expandedSection}>
             <Text preset="itemTitle">Reps:</Text>
-            <IntegerInput value={1} onChange={() => {}} />
+            <IntegerInput value={reps} onChange={(v) => onRepsChange?.(v)} />
           </View>
         </View>
       )}

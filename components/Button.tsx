@@ -8,6 +8,7 @@ interface ButtonProps {
   preset?: "primary" | "secondary";
   onPress: () => void;
   style?: any;
+  disabled?: boolean
 }
 
 export function Button({
@@ -15,9 +16,10 @@ export function Button({
   preset = "primary",
   onPress,
   style,
+  disabled = false
 }: ButtonProps) {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress} disabled={disabled}>
       <Text preset="button">{title}</Text>
     </TouchableOpacity>
   );

@@ -13,6 +13,8 @@ interface ListProps {
   disableScroll?: boolean;
   selectableList?: boolean;
   selectedItems?: MuscleListItemType[];
+  onSetsChange?: (item: MuscleListItemType, value: number) => void;
+  onRepsChange?: (item: MuscleListItemType, value: number) => void;
 }
 
 export function List({
@@ -22,10 +24,26 @@ export function List({
   disableScroll = false,
   selectableList = false,
   selectedItems = [],
+  onSetsChange,
+  onRepsChange,
 }: ListProps) {
-    function isSelected(item: MuscleListItemType) {
+  function isSelected(item: MuscleListItemType) {
     return selectedItems.some((selectedItem) => selectedItem.id === item.id);
-    }
+  }
+
+  function getSets(item: MuscleListItemType) {
+    const selectedItem = selectedItems.find(
+      (selectedItem) => selectedItem.id === item.id
+    );
+    return selectedItem?.series || 1;
+  }
+
+  function getReps(item: MuscleListItemType) {
+    const selectedItem = selectedItems.find(
+      (selectedItem) => selectedItem.id === item.id
+    );
+    return selectedItem?.reps || 1;
+  }
 
   return (
     <>
@@ -40,6 +58,10 @@ export function List({
               item={item}
               onPress={onPress}
               isSelected={isSelected(item)}
+              sets={getSets(item)}
+              reps={getReps(item)}
+              onSetsChange={(value) => onSetsChange?.(item, value)}
+              onRepsChange={(value) => onRepsChange?.(item, value)}
             />
           ) : (
             <ListItem item={item} onPress={onPress} />
