@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderColor: colors.quinary,
     borderRadius: radius.regular,
     flexDirection: "row",
-    marginVertical: 12,
+    marginVertical: spacing.s,
     backgroundColor: "#FFF",
     gap: 10,
   },

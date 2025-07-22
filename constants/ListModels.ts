@@ -16,6 +16,16 @@ export type ListItemType = {
   predefinedModel?: PredefinedModelType[];
 };
 
+export type MuscleListItemType = {
+  id: number;
+  icon: IoniconName;
+  title: string;
+  agonistMuscle: string;
+  synergistMuscles: string[];
+  series: number;
+  reps: number;
+};
+
 export const popularModels: ListItemType[] = [
   {
     icon: "barbell-outline",
@@ -82,10 +92,67 @@ export const popularModels: ListItemType[] = [
 ];
 
 export const muscleGroups: string[] = [
-  'Chest',
-  'Back',
-  'Shoulders',
-  'Biceps',
-  'Triceps',
-  'Legs',
-]
+  "Chest",
+  "Back",
+  "Shoulders",
+  "Biceps",
+  "Triceps",
+  "Legs",
+];
+
+export const exercisesList: MuscleListItemType[] = [
+  {
+    id: 1,
+    icon: "barbell-outline",
+    title: "Supino Reto",
+    agonistMuscle: "Chest",
+    synergistMuscles: ["Chest", "Shoulders", "Triceps"],
+    series: 4,
+    reps: 8,
+  },
+  {
+    id: 2,
+    icon: "barbell-outline",
+    title: "Remada Curvada",
+    agonistMuscle: "Back",
+    synergistMuscles: ["Back", "Biceps"],
+    series: 4,
+    reps: 8,
+  },
+  {
+    id: 3,
+    icon: "barbell-outline",
+    title: "Desenvolvimento Militar",
+    agonistMuscle: "Shoulders",
+    synergistMuscles: ["Shoulders", "Triceps"],
+    series: 4,
+    reps: 8,
+  },
+  {
+    id: 4,
+    icon: "barbell-outline",
+    title: "Rosca Direta",
+    agonistMuscle: "Biceps",
+    synergistMuscles: ["Biceps"],
+    series: 4,
+    reps: 10,
+  },
+  {
+    id: 5,
+    icon: "barbell-outline",
+    title: "Tríceps Testa",
+    agonistMuscle: "Triceps",
+    synergistMuscles: ["Triceps"],
+    series: 4,
+    reps: 10,
+  },
+  {
+    id: 6,
+    icon: "barbell-outline",
+    title: "Agachamento Livre",
+    agonistMuscle: "Legs",
+    synergistMuscles: ["Legs", "Glutes"],
+    series: 4,
+    reps: 8,
+  },
+];

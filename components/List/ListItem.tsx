@@ -1,18 +1,17 @@
 import { ListItemType } from "@/constants/ListModels";
-import React from "react";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import { Chip } from "./Chip";
-import { Icon } from "./Icon";
-import { colors, radius, spacing } from "./styles";
-import { Text } from "./Text";
-import { View } from "./View";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Chip } from "../Chip";
+import { Icon } from "../Icon";
+import { colors, radius, spacing } from "../styles";
+import { Text } from "../Text";
+import { View } from "../View";
 
 interface ListItemProps {
   item: ListItemType;
   onPress?: (item: ListItemType) => void;
 }
 
-function ListItem({ item, onPress }: ListItemProps) {
+export function ListItem({ item, onPress }: ListItemProps) {
   return (
     <TouchableOpacity onPress={() => onPress?.(item)}>
       <View key={item.title} style={styles.listItem}>
@@ -29,32 +28,6 @@ function ListItem({ item, onPress }: ListItemProps) {
         <Icon name="chevron-forward-outline" color={colors.nonary} />
       </View>
     </TouchableOpacity>
-  );
-}
-
-interface ListProps {
-  title?: string;
-  onPress?: (item: ListItemType) => void;
-  data: ListItemType[];
-  disableScroll?: boolean;
-}
-
-export function List({
-  title,
-  data,
-  onPress,
-  disableScroll = false,
-}: ListProps) {
-  return (
-    <>
-      {title && <Text preset="sectionTitle">{title}</Text>}
-      <FlatList
-        scrollEnabled={!disableScroll} //REVISAR!
-        contentContainerStyle={styles.listContainer}
-        data={data}
-        renderItem={({ item }) => <ListItem item={item} onPress={onPress} />}
-      />
-    </>
   );
 }
 

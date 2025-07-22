@@ -27,7 +27,6 @@ export default function DefineWorkoutScreen() {
   }));
 
   function handleItemPressed(item: ListItemType | { title: string }) {
-    console.log("Item pressed:", item);
     router.navigate({
       pathname: "/SelectExercises",
       params: { workout: JSON.stringify(item) },
