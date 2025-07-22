@@ -9,7 +9,7 @@ import {
   View
 } from "@/components";
 import { colors, spacing } from "@/components/styles";
-import type { ListItemType } from "@/constants/ListModels";
+import type { ListItemType, PredefinedModelType } from "@/constants/ListModels";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -19,7 +19,7 @@ export default function DefineWorkoutScreen() {
   const parsedWorkout = JSON.parse(workout as string);
   const router = useRouter();
 
-  const generatedModels = parsedWorkout?.predefinedModel?.map((model: any) => ({
+  const generatedModels = parsedWorkout?.predefinedModel?.map((model: PredefinedModelType) => ({
     icon: model.icon,
     title: `Workout ${model.title}`,
     description: "Tap to asign exercises",

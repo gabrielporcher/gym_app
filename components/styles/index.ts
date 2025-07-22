@@ -14,7 +14,11 @@ export const colors = {
   denary: '#8e8e93',
   transparent: 'transparent',
   background: '#FAFAFA',
-  defaultText: '#666'
+  defaultText: '#666',
+  red: '#D89A9A',
+  green: '#9FC5A2',
+  yellow: '#E7D88F',
+  blue: '#A2B8E0',
 };
 
 export const spacing = {

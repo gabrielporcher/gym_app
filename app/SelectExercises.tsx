@@ -59,7 +59,7 @@ export default function SelectExercises() {
             style={styles.chip}
             pressable
             onPress={() => handleSelectedChip(item)}
-            active={selectedMuscleGroup === item}
+            preset={selectedMuscleGroup === item ? "selected" : "default"}
           />
         )}
       />

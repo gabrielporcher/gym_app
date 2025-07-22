@@ -2,7 +2,7 @@ import React from "react";
 import { Text as DefaultText, StyleSheet } from "react-native";
 import { colors } from "./styles";
 
-type TextVariants =
+export type TextVariants =
   | "default"
   | "defaultBold"
   | "title"
@@ -12,7 +12,9 @@ type TextVariants =
   | "itemDescription"
   | "button"
   | "buttonSecondary"
-  | "defaultLight";
+  | "defaultLight"
+  | "defaultDark"
+  | "itemTitleThin";
 
 interface TextProps {
   children?: React.ReactNode;
@@ -48,6 +50,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.secondary,
   },
+  defaultDark: {
+    fontSize: 14,
+    color: colors.primary,
+  },
   title: {
     fontSize: 24,
     color: colors.primary,
@@ -71,6 +77,11 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: "bold",
   },
+  itemTitleThin: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: colors.primary,
+  },
   itemDescription: {
     fontSize: 14,
     color: colors.defaultText,
@@ -78,12 +89,12 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.secondary,
   },
   buttonSecondary: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.primary,
   },
 });

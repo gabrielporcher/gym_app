@@ -8,4 +8,5 @@ export * from './Screen';
 export * from './SearchBar';
 export * from './Text';
 export * from './View';
+export * from './IntegerInput';
 

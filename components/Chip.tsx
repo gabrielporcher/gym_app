@@ -1,12 +1,15 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { Text } from "./Text";
+import { Text, TextVariants } from "./Text";
 import { colors, radius, spacing } from "./styles";
+
+type ColorVariants = "default" | "selected" | "heavy" | "moderate" | "medium";
 
 interface ChipProps {
   text: string;
   style?: any;
   active?: boolean;
+  preset?: ColorVariants;
   pressable?: boolean;
   onPress?: () => void;
 }
@@ -15,20 +18,24 @@ export function Chip({
   text,
   style,
   active = false,
+  preset = "default",
   pressable = false,
   onPress,
 }: ChipProps) {
+  let textPreset =
+    preset == "selected"
+      ? "defaultLight"
+      : preset == "default"
+      ? "default"
+      : "defaultDark";
+
   return (
     <TouchableOpacity
-      style={[
-        styles.chip,
-        { backgroundColor: active ? colors.primary : colors.quinary },
-        style,
-      ]}
+      style={[styles.chip, styles[preset], style]}
       disabled={!pressable}
       onPress={pressable ? () => onPress && onPress() : undefined}
     >
-      <Text preset={active ? "defaultLight" : "default"}>{text}</Text>
+      <Text preset={textPreset as TextVariants}>{text}</Text>
     </TouchableOpacity>
   );
 }
@@ -39,5 +46,20 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.s,
     borderRadius: radius.round,
+  },
+  default: {
+    backgroundColor: colors.quinary,
+  },
+  selected: {
+    backgroundColor: colors.primary,
+  },
+  heavy: {
+    backgroundColor: colors.red,
+  },
+  moderate: {
+    backgroundColor: colors.yellow,
+  },
+  medium: {
+    backgroundColor: colors.green,
   },
 });
