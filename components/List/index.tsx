@@ -1,10 +1,10 @@
 import { ListItemType, MuscleListItemType } from "@/constants/ListModels";
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
-import { spacing } from "../styles";
+import { FlatList } from "react-native";
 import { Text } from "../Text";
 import { ListItem } from "./ListItem";
 import { SelectableListItem } from "./SelectableListItem";
+import { listStyles as styles } from "./styles";
 
 interface ListProps {
   title?: string;
@@ -71,9 +71,3 @@ export function List({
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  listContainer: {
-    gap: spacing.m,
-  },
-});

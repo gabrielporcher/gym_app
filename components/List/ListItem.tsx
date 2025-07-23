@@ -1,10 +1,11 @@
 import { ListItemType } from "@/constants/ListModels";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Chip } from "../Chip";
 import { Icon } from "../Icon";
-import { colors, radius, spacing } from "../styles";
 import { Text } from "../Text";
 import { View } from "../View";
+import { colors } from "../styles";
+import { listItemStyles as styles } from "./styles";
 
 interface ListItemProps {
   item: ListItemType;
@@ -31,28 +32,4 @@ export function ListItem({ item, onPress }: ListItemProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  listContainer: {
-    gap: spacing.m,
-  },
-  listItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: spacing.card,
-    //backgroundColor: colors.quinary,
-    borderRadius: radius.regular,
-    borderColor: colors.quinary,
-    borderWidth: 1.5,
-  },
-  icon: {
-    marginRight: spacing.m,
-  },
-  itemTextContainer: {
-    flex: 1,
-  },
-  chipContainer: {
-    flexDirection: "row",
-    gap: spacing.s,
-    marginTop: spacing.s,
-  },
-});
+

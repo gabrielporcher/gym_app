@@ -3,7 +3,11 @@ import { Pressable, StyleSheet, TextInput } from "react-native";
 import { Icon } from "./Icon";
 import { colors, radius, spacing } from "./styles";
 
-export function SearchBar() {
+interface SearchProps {
+  onChangeText: (text: string) => void;
+}
+
+export function SearchBar({onChangeText}: SearchProps) {
   const inputRef = useRef<TextInput>(null);
 
   function focusInput() {
@@ -14,6 +18,7 @@ export function SearchBar() {
     <Pressable onPress={focusInput} style={styles.inputContainer}>
       <Icon name="search" color={colors.defaultText} />
       <TextInput
+      onChangeText={onChangeText}
         ref={inputRef}
         placeholderTextColor={colors.defaultText}
         placeholder="Search exercises..."

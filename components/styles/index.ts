@@ -19,6 +19,7 @@ export const colors = {
   green: '#9FC5A2',
   yellow: '#E7D88F',
   blue: '#A2B8E0',
+  white: '#FFF'
 };
 
 export const spacing = {

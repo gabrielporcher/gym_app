@@ -23,10 +23,13 @@ export default function SelectExercises() {
   const [selectedExercises, setSelectedExercises] = useState<
     MuscleListItemType[]
   >([]);
+  const [searchText, setSearchText] = useState<string>("");
 
-  let listData = selectedMuscleGroup
-    ? exercisesList.filter((item) => item.agonistMuscle === selectedMuscleGroup)
-    : exercisesList;
+  let listData = exercisesList.filter((item) => {
+    const matchesMuscle = selectedMuscleGroup ? item.agonistMuscle === selectedMuscleGroup : true;
+    const matchesSearch = item.title.toLowerCase().includes(searchText.toLowerCase());
+    return matchesMuscle && matchesSearch;
+  });
 
   const handleSelectedChip = (text: string) => {
     if (text === selectedMuscleGroup) {
@@ -44,6 +47,10 @@ export default function SelectExercises() {
       }
       return [...prev, { ...item, series: 3, reps: 8 }];
     });
+  }
+
+  function onChangeText(text: string) {
+    setSearchText(text);
   }
 
   function handleSetsChange(item: MuscleListItemType, value: number) {
@@ -67,7 +74,7 @@ export default function SelectExercises() {
           currentPage="Select Exercises"
         />
 
-        <SearchBar />
+        <SearchBar onChangeText={onChangeText} />
 
         <FlatList
           data={muscleGroups}
@@ -97,7 +104,7 @@ export default function SelectExercises() {
           onRepsChange={handleRepsChange}
         />
       </View>
-      <Button title={"Save workout"} onPress={() => {}} style={{ marginTop: 10 }} />
+      <Button title={"Save workout"} onPress={() => {}} style={styles.button} />
     </Screen>
   );
 }
@@ -115,4 +122,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.s,
     flexGrow: 0,
   },
+  button: {
+    marginTop: 10
+  }
 });

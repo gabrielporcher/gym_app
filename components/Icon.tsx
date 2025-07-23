@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import { Text } from "./Text";
 import { View } from "./View";
 
-type IconName = React.ComponentProps<typeof Ionicons>["name"] | IconVariants;
+export type IconName = React.ComponentProps<typeof Ionicons>["name"] | IconVariants;
 
 export type IconVariants = "A" | "B" | "C" | "D" | "E" | "F" | "G";
 

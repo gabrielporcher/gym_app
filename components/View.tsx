@@ -1,6 +1,5 @@
 import React from "react";
 import { View as DefaultView } from "react-native";
-import { colors } from "./styles";
 
 interface ViewProps {
   children?: React.ReactNode;
@@ -11,7 +10,7 @@ interface ViewProps {
 export function View({ children, style, props }: ViewProps) {
   return (
     <DefaultView
-      style={[{ backgroundColor: colors.background }, style]}
+      style={style}
       {...props}
     >
       {children}
