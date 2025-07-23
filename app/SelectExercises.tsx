@@ -1,4 +1,12 @@
-import { Button, Chip, List, ProgressBar, Screen, SearchBar, Text } from "@/components";
+import {
+  Button,
+  Chip,
+  List,
+  ProgressBar,
+  Screen,
+  SearchBar,
+  Text,
+} from "@/components";
 import { spacing } from "@/components/styles";
 import {
   exercisesList,
@@ -6,7 +14,7 @@ import {
   MuscleListItemType,
 } from "@/constants/ListModels";
 import React, { useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 export default function SelectExercises() {
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(
@@ -50,45 +58,46 @@ export default function SelectExercises() {
     );
   }
 
-  console.log(selectedExercises);
-
   return (
-    <Screen scrollable>
-      <ProgressBar
-        totalSteps={4}
-        currentStep={3}
-        currentPage="Select Exercises"
-      />
+    <Screen>
+      <View style={{ height: "20%" }}>
+        <ProgressBar
+          totalSteps={4}
+          currentStep={3}
+          currentPage="Select Exercises"
+        />
 
-      <SearchBar />
+        <SearchBar />
 
-      <FlatList
-        data={muscleGroups}
-        horizontal
-        contentContainerStyle={styles.listContainer}
-        style={styles.list}
-        renderItem={({ item }) => (
-          <Chip
-            text={item}
-            style={styles.chip}
-            pressable
-            onPress={() => handleSelectedChip(item)}
-            preset={selectedMuscleGroup === item ? "selected" : "default"}
-          />
-        )}
-      />
+        <FlatList
+          data={muscleGroups}
+          horizontal
+          contentContainerStyle={styles.listContainer}
+          style={styles.list}
+          renderItem={({ item }) => (
+            <Chip
+              text={item}
+              style={styles.chip}
+              pressable
+              onPress={() => handleSelectedChip(item)}
+              preset={selectedMuscleGroup === item ? "selected" : "default"}
+            />
+          )}
+        />
+      </View>
 
-      <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
-      <List
-        selectableList
-        data={listData}
-        onPress={handleItemPressed}
-        disableScroll
-        selectedItems={selectedExercises}
-        onSetsChange={handleSetsChange}
-        onRepsChange={handleRepsChange}
-      />
-      <Button title={'teste'} onPress={() => {}} />
+      <View style={{ height: "72.5%" }}>
+        <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
+        <List
+          selectableList
+          data={listData}
+          onPress={handleItemPressed}
+          selectedItems={selectedExercises}
+          onSetsChange={handleSetsChange}
+          onRepsChange={handleRepsChange}
+        />
+      </View>
+      <Button title={"Save workout"} onPress={() => {}} style={{ marginTop: 10 }} />
     </Screen>
   );
 }
@@ -104,5 +113,6 @@ const styles = StyleSheet.create({
   },
   list: {
     marginBottom: spacing.s,
+    flexGrow: 0,
   },
 });
