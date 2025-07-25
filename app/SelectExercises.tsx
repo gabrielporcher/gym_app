@@ -15,7 +15,7 @@ import {
 } from "@/constants/ListModels";
 import { useWorkoutStore } from "@/contexts/store";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function SelectExercises() {
@@ -31,15 +31,17 @@ export default function SelectExercises() {
   >([]);
   const [searchText, setSearchText] = useState<string>("");
 
-  let listData = exercisesList.filter((item) => {
-    const matchesMuscle = selectedMuscleGroup
-      ? item.agonistMuscle === selectedMuscleGroup
-      : true;
-    const matchesSearch = item.title
-      .toLowerCase()
-      .includes(searchText.toLowerCase());
-    return matchesMuscle && matchesSearch;
-  });
+  const listData = useMemo(() => {
+    return exercisesList.filter((item) => {
+      const matchesMuscle = selectedMuscleGroup
+        ? item.agonistMuscle === selectedMuscleGroup
+        : true;
+      const matchesSearch = item.title
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+      return matchesMuscle && matchesSearch;
+    });
+  }, [selectedMuscleGroup, searchText]);
 
   useEffect(() => {
     init();
@@ -90,36 +92,53 @@ export default function SelectExercises() {
     );
   }
 
+  const memoizedOnSetsChange = useCallback(
+    (item: MuscleWorkoutModel, value: number) => {
+      handleSetsChange(item, value);
+    },
+    [selectedExercises]
+  );
+
+  const memoizedOnRepsChange = useCallback(
+    (item: MuscleWorkoutModel, value: number) => {
+      handleRepsChange(item, value);
+    },
+    [selectedExercises]
+  );
+
   function saveWorkout() {
     const newTags = [
       ...new Set(selectedExercises.map((item) => item.agonistMuscle)),
     ];
-    updateWorkout((workout) => {
-      if (!workout) return workout;
 
-      const updatedPredefinedModel = workout.trainingSession?.map(
-        (model: any) => {
-          if (model.title === parsedWorkoutTitle) {
-            return {
-              ...model,
-              description: "Workout done! tap to update",
-              tags: newTags,
-              registered: true,
-              exercises: selectedExercises,
-            };
-          }
-          return model;
-        }
+    updateWorkout((workout) => {
+      if (!workout || !workout.trainingSession) return workout;
+
+      const updatedSessions = [...workout.trainingSession];
+
+      const index = updatedSessions.findIndex(
+        (session) => session.title === parsedWorkoutTitle
       );
+
+      if (index !== -1) {
+        updatedSessions[index] = {
+          ...updatedSessions[index],
+          description: "Workout done! tap to update",
+          tags: newTags,
+          registered: true,
+          exercises: selectedExercises,
+        };
+      }
 
       return {
         ...workout,
-        trainingSession: updatedPredefinedModel,
+        trainingSession: updatedSessions,
       };
     });
+
     router.push({
       pathname: "/DefineWorkoutScreen",
-      params: { toast: 'show', workoutTitle: workoutTitle },
+      params: { toast: "show", workoutTitle: workoutTitle },
     });
   }
 
@@ -158,8 +177,8 @@ export default function SelectExercises() {
           data={listData}
           onPress={handleItemPressed}
           selectedItems={selectedExercises}
-          onSetsChange={handleSetsChange}
-          onRepsChange={handleRepsChange}
+          onSetsChange={memoizedOnSetsChange}
+          onRepsChange={memoizedOnRepsChange}
         />
       </View>
       <Button

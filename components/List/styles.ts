@@ -27,6 +27,7 @@ export const listItemStyles = StyleSheet.create({
     flexDirection: "row",
     gap: spacing.s,
     marginTop: spacing.s,
+    flexWrap: 'wrap'
   },
 });
 

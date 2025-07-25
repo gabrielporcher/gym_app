@@ -1,5 +1,6 @@
 import { MuscleWorkoutModel } from "@/constants/ListModels";
 import Checkbox from "expo-checkbox";
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Chip } from "../Chip";
 import { Icon } from "../Icon";
@@ -19,7 +20,7 @@ interface SelectableListProps {
   onRepsChange?: (value: number) => void;
 }
 
-export function SelectableListItem({
+function SelectableListItemComponent({
   item,
   onPress,
   isSelected = false,
@@ -42,11 +43,11 @@ export function SelectableListItem({
             {item.title}
           </Text>
           <View style={styles.chipContainer}>
-            {item?.muscleIntensity?.map((item) => (
+            {item?.muscleIntensity?.map((intensity, index) => (
               <Chip
-                key={item.muscle}
-                text={item.muscle}
-                preset={item.intensity}
+                key={index}
+                text={intensity.muscle}
+                preset={intensity.intensity}
               />
             ))}
           </View>
@@ -84,4 +85,20 @@ export function SelectableListItem({
   );
 }
 
+//para evitar re-renderizações desnecessárias
+function areEqual(
+  prevProps: SelectableListProps,
+  nextProps: SelectableListProps
+) {
+  return (
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.sets === nextProps.sets &&
+    prevProps.reps === nextProps.reps &&
+    prevProps.item.id === nextProps.item.id
+  );
+}
 
+export const SelectableListItem = React.memo(
+  SelectableListItemComponent,
+  areEqual
+);
