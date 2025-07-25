@@ -185,6 +185,7 @@ export default function SelectExercises() {
         title={"Save workout"}
         onPress={saveWorkout}
         style={styles.button}
+        disabled={!selectedExercises.length}
       />
     </Screen>
   );
