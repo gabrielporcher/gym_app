@@ -6,36 +6,47 @@ import {
   ProgressBar,
   Screen,
   Text,
-  Toast,
-  View
+  View,
 } from "@/components";
 import { colors, spacing } from "@/components/styles";
 import type { WorkoutModel } from "@/constants/ListModels";
 import { useWorkoutStore } from "@/contexts/store";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useToast } from "@/contexts/ToastContext";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 
 export default function DefineWorkoutScreen() {
   const router = useRouter();
+  const { toast ,workoutTitle } = useLocalSearchParams();
   const { workout } = useWorkoutStore();
-  const models = workout?.trainingSession ?? []
-  const [toastVisiblity, setToastVisibility] = useState<boolean>(false)
+  const models = workout?.trainingSession ?? [];
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    confirmWorkoutCreated()
+  }, [toast])
+
+  function confirmWorkoutCreated() {
+    if(toast == 'show' && workoutTitle) {
+      showToast(`Workout ${workoutTitle} successfully registered`)
+    }
+  }
 
   function handleItemPressed(item: WorkoutModel | { title: string }) {
     router.push({
-      pathname: '/SelectExercises',
+      pathname: "/SelectExercises",
       params: { workoutTitle: JSON.stringify(item.title) },
     });
   }
 
   function saveWorkout() {
-    setToastVisibility(!toastVisiblity)
+    //setToastVisibility(!toastVisiblity);
+    showToast('Teste porreta!')
   }
 
   return (
     <Screen scrollable>
-      <Toast visible={toastVisiblity} message="Teste 123" />
       <ProgressBar
         totalSteps={4}
         currentStep={2}

@@ -8,6 +8,7 @@ import { Stack } from "expo-router";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { ToastProvider } from "../contexts/ToastContext";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -21,38 +22,40 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack
-        initialRouteName="CreateWorkoutScreen"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen
-          name={"CreateWorkoutScreen"}
-          options={{
-            title: "Create Workout",
-            headerShadowVisible: false,
-            headerTitleAlign: "center",
+    <ToastProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack
+          initialRouteName="CreateWorkoutScreen"
+          screenOptions={{
+            headerShown: false,
           }}
-        />
-        <Stack.Screen
-          name={"DefineWorkoutScreen"}
-          options={{
-            title: "Define Workout",
-            headerShadowVisible: false,
-            headerTitleAlign: "center",
-          }}
-        />
-        <Stack.Screen
-          name={"SelectExercises"}
-          options={{
-            title: "Select Exercises",
-            headerShadowVisible: false,
-            headerTitleAlign: "center",
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
+        >
+          <Stack.Screen
+            name={"CreateWorkoutScreen"}
+            options={{
+              title: "Create Workout",
+              headerShadowVisible: false,
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen
+            name={"DefineWorkoutScreen"}
+            options={{
+              title: "Define Workout",
+              headerShadowVisible: false,
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen
+            name={"SelectExercises"}
+            options={{
+              title: "Select Exercises",
+              headerShadowVisible: false,
+              headerTitleAlign: "center",
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </ToastProvider>
   );
 }

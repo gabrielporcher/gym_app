@@ -14,13 +14,14 @@ import {
   MuscleWorkoutModel,
 } from "@/constants/ListModels";
 import { useWorkoutStore } from "@/contexts/store";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function SelectExercises() {
   const { workoutTitle } = useLocalSearchParams();
   const parsedWorkoutTitle = JSON.parse(workoutTitle as string);
+  const router = useRouter();
   const { workout, updateWorkout } = useWorkoutStore();
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(
     null
@@ -115,6 +116,10 @@ export default function SelectExercises() {
         ...workout,
         trainingSession: updatedPredefinedModel,
       };
+    });
+    router.push({
+      pathname: "/DefineWorkoutScreen",
+      params: { toast: 'show', workoutTitle: workoutTitle },
     });
   }
 
