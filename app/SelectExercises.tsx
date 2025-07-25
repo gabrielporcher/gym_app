@@ -11,25 +11,49 @@ import { spacing } from "@/components/styles";
 import {
   exercisesList,
   muscleGroups,
-  MuscleListItemType,
+  MuscleWorkoutModel,
 } from "@/constants/ListModels";
-import React, { useState } from "react";
+import { useWorkoutStore } from "@/contexts/store";
+import { useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function SelectExercises() {
+  const { workoutTitle } = useLocalSearchParams();
+  const parsedWorkoutTitle = JSON.parse(workoutTitle as string);
+  const { workout, updateWorkout } = useWorkoutStore();
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(
     null
   );
   const [selectedExercises, setSelectedExercises] = useState<
-    MuscleListItemType[]
+    MuscleWorkoutModel[]
   >([]);
   const [searchText, setSearchText] = useState<string>("");
 
   let listData = exercisesList.filter((item) => {
-    const matchesMuscle = selectedMuscleGroup ? item.agonistMuscle === selectedMuscleGroup : true;
-    const matchesSearch = item.title.toLowerCase().includes(searchText.toLowerCase());
+    const matchesMuscle = selectedMuscleGroup
+      ? item.agonistMuscle === selectedMuscleGroup
+      : true;
+    const matchesSearch = item.title
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
     return matchesMuscle && matchesSearch;
   });
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  function init() {
+    const registeredWorkout = workout?.trainingSession?.filter(
+      (item) => item.title == parsedWorkoutTitle && item.registered
+    );
+    if (registeredWorkout && registeredWorkout.length) {
+      const savedWorkout = registeredWorkout[0];
+      console.log("tem olha: ", savedWorkout);
+      setSelectedExercises(savedWorkout.exercises as MuscleWorkoutModel[]);
+    }
+  }
 
   const handleSelectedChip = (text: string) => {
     if (text === selectedMuscleGroup) {
@@ -53,16 +77,45 @@ export default function SelectExercises() {
     setSearchText(text);
   }
 
-  function handleSetsChange(item: MuscleListItemType, value: number) {
+  function handleSetsChange(item: MuscleWorkoutModel, value: number) {
     setSelectedExercises((prev) =>
       prev.map((ex) => (ex.id === item.id ? { ...ex, series: value } : ex))
     );
   }
 
-  function handleRepsChange(item: MuscleListItemType, value: number) {
+  function handleRepsChange(item: MuscleWorkoutModel, value: number) {
     setSelectedExercises((prev) =>
       prev.map((ex) => (ex.id === item.id ? { ...ex, reps: value } : ex))
     );
+  }
+
+  function saveWorkout() {
+    const newTags = [
+      ...new Set(selectedExercises.map((item) => item.agonistMuscle)),
+    ];
+    updateWorkout((workout) => {
+      if (!workout) return workout;
+
+      const updatedPredefinedModel = workout.trainingSession?.map(
+        (model: any) => {
+          if (model.title === parsedWorkoutTitle) {
+            return {
+              ...model,
+              description: "Workout done! tap to update",
+              tags: newTags,
+              registered: true,
+              exercises: selectedExercises,
+            };
+          }
+          return model;
+        }
+      );
+
+      return {
+        ...workout,
+        trainingSession: updatedPredefinedModel,
+      };
+    });
   }
 
   return (
@@ -104,7 +157,11 @@ export default function SelectExercises() {
           onRepsChange={handleRepsChange}
         />
       </View>
-      <Button title={"Save workout"} onPress={() => {}} style={styles.button} />
+      <Button
+        title={"Save workout"}
+        onPress={saveWorkout}
+        style={styles.button}
+      />
     </Screen>
   );
 }
@@ -123,6 +180,6 @@ const styles = StyleSheet.create({
     flexGrow: 0,
   },
   button: {
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 });

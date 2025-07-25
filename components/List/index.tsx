@@ -1,4 +1,4 @@
-import { ListItemType, MuscleListItemType } from "@/constants/ListModels";
+import { MuscleWorkoutModel, PredefinedModelType, WorkoutModel } from "@/constants/ListModels";
 import React from "react";
 import { FlatList } from "react-native";
 import { Text } from "../Text";
@@ -8,13 +8,13 @@ import { listStyles as styles } from "./styles";
 
 interface ListProps {
   title?: string;
-  onPress?: (item: ListItemType | MuscleListItemType) => void;
+  onPress?: (item: WorkoutModel | MuscleWorkoutModel | PredefinedModelType) => void;
   data: any[];
   disableScroll?: boolean;
   selectableList?: boolean;
-  selectedItems?: MuscleListItemType[];
-  onSetsChange?: (item: MuscleListItemType, value: number) => void;
-  onRepsChange?: (item: MuscleListItemType, value: number) => void;
+  selectedItems?: MuscleWorkoutModel[];
+  onSetsChange?: (item: MuscleWorkoutModel, value: number) => void;
+  onRepsChange?: (item: MuscleWorkoutModel, value: number) => void;
 }
 
 export function List({
@@ -27,18 +27,18 @@ export function List({
   onSetsChange,
   onRepsChange,
 }: ListProps) {
-  function isSelected(item: MuscleListItemType) {
+  function isSelected(item: MuscleWorkoutModel) {
     return selectedItems.some((selectedItem) => selectedItem.id === item.id);
   }
 
-  function getSets(item: MuscleListItemType) {
+  function getSets(item: MuscleWorkoutModel) {
     const selectedItem = selectedItems.find(
       (selectedItem) => selectedItem.id === item.id
     );
     return selectedItem?.series || 1;
   }
 
-  function getReps(item: MuscleListItemType) {
+  function getReps(item: MuscleWorkoutModel) {
     const selectedItem = selectedItems.find(
       (selectedItem) => selectedItem.id === item.id
     );
@@ -52,7 +52,7 @@ export function List({
         scrollEnabled={!disableScroll} //REVISAR!
         contentContainerStyle={styles.listContainer}
         data={data}
-        renderItem={({ item }) =>
+        renderItem={({ item, index }) =>
           selectableList ? (
             <SelectableListItem
               item={item}

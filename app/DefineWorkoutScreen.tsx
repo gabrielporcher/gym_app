@@ -6,40 +6,36 @@ import {
   ProgressBar,
   Screen,
   Text,
+  Toast,
   View
 } from "@/components";
 import { colors, spacing } from "@/components/styles";
-import type { ListItemType, PredefinedModelType } from "@/constants/ListModels";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import type { WorkoutModel } from "@/constants/ListModels";
+import { useWorkoutStore } from "@/contexts/store";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
 export default function DefineWorkoutScreen() {
-  const { workout } = useLocalSearchParams();
-  const parsedWorkout = JSON.parse(workout as string);
   const router = useRouter();
+  const { workout } = useWorkoutStore();
+  const models = workout?.trainingSession ?? []
+  const [toastVisiblity, setToastVisibility] = useState<boolean>(false)
 
-  const generatedModels = parsedWorkout?.predefinedModel?.map((model: PredefinedModelType) => ({
-    icon: model.icon,
-    title: `Workout ${model.title}`,
-    description: "Tap to asign exercises",
-    tags: ["Customizable"],
-  }));
-
-  function handleItemPressed(item: ListItemType | { title: string }) {
-    router.navigate({
-      pathname: "/SelectExercises",
-      params: { workout: JSON.stringify(item) },
+  function handleItemPressed(item: WorkoutModel | { title: string }) {
+    router.push({
+      pathname: '/SelectExercises',
+      params: { workoutTitle: JSON.stringify(item.title) },
     });
   }
 
   function saveWorkout() {
-    console.log("Workout saved:", parsedWorkout);
-    // Implement save logic here
+    setToastVisibility(!toastVisiblity)
   }
 
   return (
     <Screen scrollable>
+      <Toast visible={toastVisiblity} message="Teste 123" />
       <ProgressBar
         totalSteps={4}
         currentStep={2}
@@ -48,8 +44,8 @@ export default function DefineWorkoutScreen() {
 
       <Card style={styles.card}>
         <View style={styles.section}>
-          <Text preset="buttonSecondary">{parsedWorkout?.title}</Text>
-          <Text preset="default">{parsedWorkout?.description}</Text>
+          <Text preset="buttonSecondary">{workout?.title}</Text>
+          <Text preset="default">{workout?.description}</Text>
         </View>
         <View style={[styles.section, styles.icon]}>
           <Icon name="checkmark-circle" size={28} />
@@ -62,12 +58,14 @@ export default function DefineWorkoutScreen() {
         exercises
       </Text>
 
-      <List
-        data={generatedModels}
-        title="Popular Models"
-        onPress={handleItemPressed}
-        disableScroll
-      />
+      {workout && (
+        <List
+          data={models}
+          title="Popular Models"
+          onPress={handleItemPressed}
+          disableScroll
+        />
+      )}
       <Button title="Continue" onPress={saveWorkout} style={styles.button} />
     </Screen>
   );
@@ -90,5 +88,5 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: spacing.m,
-  }
+  },
 });

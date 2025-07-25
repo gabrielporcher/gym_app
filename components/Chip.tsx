@@ -23,7 +23,7 @@ export function Chip({
   onPress,
 }: ChipProps) {
   let textPreset =
-    preset == "selected"
+    preset == "selected" || preset == "heavy"
       ? "defaultLight"
       : preset == "default"
       ? "default"
@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   heavy: {
-    backgroundColor: colors.red,
+    backgroundColor: colors.primary,
   },
   moderate: {
-    backgroundColor: colors.yellow,
+    backgroundColor: colors.tertiary,
   },
   medium: {
-    backgroundColor: colors.green,
+    backgroundColor: colors.quinary,
   },
 });

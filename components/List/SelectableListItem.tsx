@@ -1,4 +1,4 @@
-import { MuscleListItemType } from "@/constants/ListModels";
+import { MuscleWorkoutModel } from "@/constants/ListModels";
 import Checkbox from "expo-checkbox";
 import { TouchableOpacity } from "react-native";
 import { Chip } from "../Chip";
@@ -10,8 +10,8 @@ import { colors } from "../styles";
 import { selectableListItemStyles as styles } from "./styles";
 
 interface SelectableListProps {
-  item: MuscleListItemType;
-  onPress?: (item: MuscleListItemType) => void;
+  item: MuscleWorkoutModel;
+  onPress?: (item: MuscleWorkoutModel) => void;
   isSelected?: boolean;
   sets?: number;
   reps?: number;
@@ -42,7 +42,7 @@ export function SelectableListItem({
             {item.title}
           </Text>
           <View style={styles.chipContainer}>
-            {item?.muscleIntensity.map((item) => (
+            {item?.muscleIntensity?.map((item) => (
               <Chip
                 key={item.muscle}
                 text={item.muscle}
