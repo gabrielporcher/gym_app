@@ -1,14 +1,20 @@
 import React, { useRef } from "react";
-import { Pressable, StyleSheet, TextInput } from "react-native";
-import { Icon } from "./Icon";
+import { Pressable, TextInput as RNTextInput, StyleSheet } from "react-native";
+import { Icon, IconName } from "./Icon";
 import { colors, radius, spacing } from "./styles";
 
 interface SearchProps {
   onChangeText: (text: string) => void;
+  placeholder: string;
+  icon?: IconName;
 }
 
-export function SearchBar({onChangeText}: SearchProps) {
-  const inputRef = useRef<TextInput>(null);
+export function TextInput({
+  onChangeText,
+  icon = "search",
+  placeholder,
+}: SearchProps) {
+  const inputRef = useRef<RNTextInput>(null);
 
   function focusInput() {
     inputRef.current?.focus();
@@ -16,12 +22,12 @@ export function SearchBar({onChangeText}: SearchProps) {
 
   return (
     <Pressable onPress={focusInput} style={styles.inputContainer}>
-      <Icon name="search" color={colors.defaultText} />
-      <TextInput
-      onChangeText={onChangeText}
+      <Icon name={icon} color={colors.defaultText} />
+      <RNTextInput
+        onChangeText={onChangeText}
         ref={inputRef}
         placeholderTextColor={colors.defaultText}
-        placeholder="Search exercises..."
+        placeholder={placeholder}
         style={styles.textInput}
       />
     </Pressable>
@@ -32,7 +38,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderWidth: 1,
     padding: spacing.s,
-    paddingVertical: spacing.m,
+    paddingVertical: 12,
     borderColor: colors.quinary,
     borderRadius: radius.regular,
     flexDirection: "row",

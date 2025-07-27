@@ -4,8 +4,8 @@ import {
   List,
   ProgressBar,
   Screen,
-  SearchBar,
   Text,
+  TextInput,
 } from "@/components";
 import { spacing } from "@/components/styles";
 import {
@@ -151,7 +151,7 @@ export default function SelectExercises() {
           currentPage="Select Exercises"
         />
 
-        <SearchBar onChangeText={onChangeText} />
+        <TextInput placeholder="Search specific exercise" onChangeText={onChangeText} />
 
         <FlatList
           data={muscleGroups}

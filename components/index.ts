@@ -6,8 +6,8 @@ export * from './IntegerInput';
 export * from './List';
 export * from './ProgressBar';
 export * from './Screen';
-export * from './SearchBar';
 export * from './Text';
+export * from './TextInput';
 export * from './Toast';
 export * from './View';
 
