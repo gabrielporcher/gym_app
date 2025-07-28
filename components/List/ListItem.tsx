@@ -45,7 +45,12 @@ export function ListItem({ item, onPress }: ListItemProps) {
             ))}
           </View>
         </View>
-        <Icon name="chevron-forward-outline" color={colors.nonary} />
+        <Icon
+          name={
+            item.registered ? "checkmark-circle" : "chevron-forward-outline"
+          }
+          color={item.registered ? colors.primary : colors.nonary}
+        />
       </View>
     </TouchableOpacity>
   );

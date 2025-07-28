@@ -1,31 +1,39 @@
 import { Button, Screen, TextInput } from "@/components";
 import { spacing } from "@/components/styles";
+import { useUserStore } from "@/contexts/store";
+import { useToast } from "@/contexts/ToastContext";
 import { useRouter } from "expo-router";
 import { FirebaseError } from "firebase/app";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { auth } from '../FirebaseConfig';
+import { auth } from "../FirebaseConfig";
 
 export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const { setUser } = useUserStore();
+  const { showToast } = useToast();
 
   async function signUp() {
     setLoading(true);
     try {
-      createUserWithEmailAndPassword(auth, email, password)
+      await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log('DEU BOM!! : ', user)
+          console.log("DEU BOM!! : ", user);
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.error(errorMessage)
+          console.error(errorMessage);
         });
     } catch (error: any) {
       const err = error as FirebaseError;
@@ -37,16 +45,19 @@ export default function LoginScreen() {
   async function signIn() {
     setLoading(true);
     try {
-      signInWithEmailAndPassword(auth, email, password)
+      await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed up
           const user = userCredential;
-          console.log('DEU BOM!! : ', user)
+          console.log("DEU BOM!! : ", user);
+          setUser(user);
+          router.navigate("/(app)/CreateWorkoutScreen");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.error(errorMessage)
+          showToast(errorMessage);
+          console.error(errorMessage);
         });
     } catch (error: any) {
       const err = error as FirebaseError;
@@ -60,11 +71,25 @@ export default function LoginScreen() {
       <TextInput
         placeholder="User email"
         icon="person"
-        onChangeText={text => setEmail(text)}
+        onChangeText={(text) => setEmail(text)}
       />
-      <TextInput placeholder="password" icon="key" onChangeText={text => setPassword(text)} />
-      <Button title="Login" onPress={() => signIn()} style={styles.button} />
-      <Button title="Create account" onPress={() => signUp()} style={styles.button} />
+      <TextInput
+        placeholder="password"
+        icon="key"
+        onChangeText={(text) => setPassword(text)}
+      />
+      <Button
+        title="Login"
+        onPress={signIn}
+        style={styles.button}
+        isLoading={loading}
+      />
+      <Button
+        title="Create account"
+        onPress={() => signUp()}
+        style={styles.button}
+        isLoading={loading}
+      />
     </Screen>
   );
 }

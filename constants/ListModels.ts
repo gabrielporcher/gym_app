@@ -18,6 +18,7 @@ export type WorkoutModel = {
   description: string;
   tags: string[];
   trainingSession?: PredefinedModelType[];
+  registered?: boolean;
 };
 
 export const popularModels: WorkoutModel[] = [

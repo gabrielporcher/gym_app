@@ -29,3 +29,15 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
 
   resetWorkout: () => set({ workout: null }),
 }));
+
+interface UserState {
+  user: any; // Replace 'any' with your user type
+  setUser: (user: any) => void;
+  logout: () => void;
+}
+
+export const useUserStore = create<UserState>((set) => ({
+  user: null,
+  setUser: (user) => set({ user }),
+  logout: () => set({ user: null }),
+}));
