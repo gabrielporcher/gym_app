@@ -17,7 +17,7 @@ export type WorkoutModel = {
   title: string;
   description: string;
   tags: string[];
-  trainingSession?: PredefinedModelType[];
+  weeklyWorkout?: PredefinedModelType[];
   registered?: boolean;
 };
 
@@ -27,7 +27,7 @@ export const popularModels: WorkoutModel[] = [
     title: "ABC 2x",
     description: "3 different workouts, 2x per week",
     tags: ["6 days/week", "Intermediate"],
-    trainingSession: [
+    weeklyWorkout: [
       {
         icon: "A",
         title: "A 1",
@@ -71,7 +71,7 @@ export const popularModels: WorkoutModel[] = [
     title: "ABCDE",
     description: "5 different workouts, each muscle group",
     tags: ["5 days/week", "Advanced"],
-    trainingSession: [
+    weeklyWorkout: [
       {
         icon: "A",
         title: "A",
@@ -109,7 +109,7 @@ export const popularModels: WorkoutModel[] = [
     title: "Push/Pull",
     description: "Alternating push and pull movements",
     tags: ["4-6 days/week", "Intermediate"],
-    trainingSession: [
+    weeklyWorkout: [
       {
         icon: "A",
         title: "PUSH 1",
@@ -141,7 +141,7 @@ export const popularModels: WorkoutModel[] = [
     title: "Full Body",
     description: "Complete body workout each session",
     tags: ["3 days/week", "Beginner"],
-    trainingSession: [
+    weeklyWorkout: [
       {
         icon: "A",
         title: "A",
@@ -167,7 +167,7 @@ export const popularModels: WorkoutModel[] = [
     title: "Upper/Lower",
     description: "Complete segment workout each session",
     tags: ["4 days/week", "Beginner"],
-    trainingSession: [
+    weeklyWorkout: [
       {
         icon: "A",
         title: "UPPER 1",

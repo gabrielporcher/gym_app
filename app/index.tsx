@@ -21,30 +21,25 @@ export default function LoginScreen() {
   const { setUser } = useUserStore();
   const { showToast } = useToast();
 
-  async function signUp() {
+  async function authUser(register = false) {
     setLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          console.log("DEU BOM!! : ", user);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.error(errorMessage);
-        });
-    } catch (error: any) {
-      const err = error as FirebaseError;
-      console.error("Registration failed: ", err.message);
-    }
-    setLoading(false);
-  }
-
-  async function signIn() {
-    setLoading(true);
-    try {
+      if (register) {
+        await createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed up
+            const user = userCredential.user;
+            console.log("DEU BOM!! : ", user);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            showToast(errorMessage);
+            console.error(errorMessage);
+          });
+          setLoading(false)
+        return;
+      }
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed up
@@ -59,11 +54,14 @@ export default function LoginScreen() {
           showToast(errorMessage);
           console.error(errorMessage);
         });
-    } catch (error: any) {
+        setLoading(false);
+        return
+    } catch (error) {
       const err = error as FirebaseError;
-      console.error("Registration failed: ", err.message);
+      console.error("Auth failed: ", err.message);
+      showToast(err.message);
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -80,13 +78,13 @@ export default function LoginScreen() {
       />
       <Button
         title="Login"
-        onPress={signIn}
+        onPress={() => authUser(false)}
         style={styles.button}
         isLoading={loading}
       />
       <Button
         title="Create account"
-        onPress={() => signUp()}
+        onPress={() => authUser(true)}
         style={styles.button}
         isLoading={loading}
       />

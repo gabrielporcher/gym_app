@@ -48,7 +48,7 @@ export default function SelectExercises() {
   }, []);
 
   function init() {
-    const registeredWorkout = workout?.trainingSession?.filter(
+    const registeredWorkout = workout?.weeklyWorkout?.filter(
       (item) => item.title == parsedWorkoutTitle && item.registered
     );
     if (registeredWorkout && registeredWorkout.length) {
@@ -112,9 +112,9 @@ export default function SelectExercises() {
     ];
 
     updateWorkout((workout) => {
-      if (!workout || !workout.trainingSession) return workout;
+      if (!workout || !workout.weeklyWorkout) return workout;
 
-      const updatedSessions = [...workout.trainingSession];
+      const updatedSessions = [...workout.weeklyWorkout];
 
       const index = updatedSessions.findIndex(
         (session) => session.title === parsedWorkoutTitle
@@ -132,7 +132,7 @@ export default function SelectExercises() {
 
       return {
         ...workout,
-        trainingSession: updatedSessions,
+        weeklyWorkout: updatedSessions,
       };
     });
 

@@ -10,7 +10,7 @@ import {
 } from "@/components";
 import { colors, spacing } from "@/components/styles";
 import type { WorkoutModel } from "@/constants/ListModels";
-import { useWorkoutStore } from "@/contexts/store";
+import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useToast } from "@/contexts/ToastContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect } from "react";
@@ -19,8 +19,9 @@ import { StyleSheet } from "react-native";
 export default function DefineWorkoutScreen() {
   const router = useRouter();
   const { toast ,workoutTitle } = useLocalSearchParams();
+  const {user} = useUserStore()
   const { workout } = useWorkoutStore();
-  const models = workout?.trainingSession ?? [];
+  const models = workout?.weeklyWorkout ?? [];
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -43,6 +44,8 @@ export default function DefineWorkoutScreen() {
   function saveWorkout() {
     //setToastVisibility(!toastVisiblity);
     showToast('Teste porreta!')
+    console.log(workout)
+    console.log(user.user)
   }
 
   return (
@@ -77,7 +80,12 @@ export default function DefineWorkoutScreen() {
           disableScroll
         />
       )}
-      <Button title="Continue" onPress={saveWorkout} style={styles.button} />
+      <Button
+        title="Continue"
+        onPress={saveWorkout}
+        style={styles.button}
+        disabled={!models.every((model) => model.registered)}
+      />
     </Screen>
   );
 }
