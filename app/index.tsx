@@ -1,6 +1,5 @@
 import { Button, Screen, TextInput } from "@/components";
 import { spacing } from "@/components/styles";
-import { useUserStore } from "@/contexts/store";
 import { useToast } from "@/contexts/ToastContext";
 import { useRouter } from "expo-router";
 import { FirebaseError } from "firebase/app";
@@ -8,58 +7,33 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { auth } from "../FirebaseConfig";
 
 export default function LoginScreen() {
   const router = useRouter();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const { setUser } = useUserStore();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { showToast } = useToast();
 
   async function authUser(register = false) {
     setLoading(true);
     try {
       if (register) {
-        await createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Signed up
-            const user = userCredential.user;
-            console.log("DEU BOM!! : ", user);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            showToast(errorMessage);
-            console.error(errorMessage);
-          });
-          setLoading(false)
-        return;
+        await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
       }
-      await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential;
-          console.log("DEU BOM!! : ", user);
-          setUser(user);
-          router.navigate("/(app)/CreateWorkoutScreen");
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          showToast(errorMessage);
-          console.error(errorMessage);
-        });
-        setLoading(false);
-        return
+
+      // A mudança de estado será detectada automaticamente por onAuthStateChanged
+      // e o redirecionamento ocorrerá via useEffect no RootLayout.
     } catch (error) {
       const err = error as FirebaseError;
-      console.error("Auth failed: ", err.message);
       showToast(err.message);
+      console.error("Auth failed: ", err.message);
+    } finally {
       setLoading(false);
     }
   }
@@ -69,12 +43,13 @@ export default function LoginScreen() {
       <TextInput
         placeholder="User email"
         icon="person"
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={setEmail}
       />
       <TextInput
-        placeholder="password"
+        placeholder="Password"
         icon="key"
-        onChangeText={(text) => setPassword(text)}
+        //secureTextEntry
+        onChangeText={setPassword}
       />
       <Button
         title="Login"

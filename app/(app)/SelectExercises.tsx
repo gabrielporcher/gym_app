@@ -9,26 +9,33 @@ import {
 } from "@/components";
 import { spacing } from "@/components/styles";
 import {
+  DailyWorkoutTemplate,
   exercisesList,
+  ExerciseTemplate,
   muscleGroups,
-  MuscleWorkoutModel,
 } from "@/constants/ListModels";
 import { useWorkoutStore } from "@/contexts/store";
+import { useToast } from "@/contexts/ToastContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function SelectExercises() {
-  const { workoutTitle } = useLocalSearchParams();
-  const parsedWorkoutTitle = JSON.parse(workoutTitle as string);
   const router = useRouter();
-  const { workout, updateWorkout } = useWorkoutStore();
+  const params = useLocalSearchParams();
+  const { workoutPlanBuilder, updateWorkoutPlanBuilder } = useWorkoutStore();
+  const { showToast } = useToast();
+
+  const weeklyWorkout = useMemo(() => 
+    workoutPlanBuilder?.weeklyWorkout?.find(ww => ww.title === params.weeklyWorkoutTitle)
+  , [workoutPlanBuilder, params.weeklyWorkoutTitle]);
+
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(
     null
   );
   const [selectedExercises, setSelectedExercises] = useState<
-    MuscleWorkoutModel[]
-  >([]);
+    ExerciseTemplate[]
+  >(weeklyWorkout?.exercises || []);
   const [searchText, setSearchText] = useState<string>("");
 
   const listData = useMemo(() => {
@@ -43,31 +50,15 @@ export default function SelectExercises() {
     });
   }, [selectedMuscleGroup, searchText]);
 
-  useEffect(() => {
-    init();
-  }, []);
-
-  function init() {
-    const registeredWorkout = workout?.weeklyWorkout?.filter(
-      (item) => item.title == parsedWorkoutTitle && item.registered
-    );
-    if (registeredWorkout && registeredWorkout.length) {
-      const savedWorkout = registeredWorkout[0];
-      console.log("tem olha: ", savedWorkout);
-      setSelectedExercises(savedWorkout.exercises as MuscleWorkoutModel[]);
-    }
-  }
-
   const handleSelectedChip = (text: string) => {
     if (text === selectedMuscleGroup) {
       setSelectedMuscleGroup(null);
       return;
     }
-
     setSelectedMuscleGroup(text);
   };
 
-  function handleItemPressed(item: any) {
+  function handleItemPressed(item: ExerciseTemplate) {
     setSelectedExercises((prev) => {
       if (prev.some((ex) => ex.id === item.id)) {
         return prev.filter((ex) => ex.id !== item.id);
@@ -80,66 +71,55 @@ export default function SelectExercises() {
     setSearchText(text);
   }
 
-  function handleSetsChange(item: MuscleWorkoutModel, value: number) {
+  function handleSetsChange(item: ExerciseTemplate, value: number) {
     setSelectedExercises((prev) =>
       prev.map((ex) => (ex.id === item.id ? { ...ex, series: value } : ex))
     );
   }
 
-  function handleRepsChange(item: MuscleWorkoutModel, value: number) {
+  function handleRepsChange(item: ExerciseTemplate, value: number) {
     setSelectedExercises((prev) =>
       prev.map((ex) => (ex.id === item.id ? { ...ex, reps: value } : ex))
     );
   }
 
   const memoizedOnSetsChange = useCallback(
-    (item: MuscleWorkoutModel, value: number) => {
+    (item: ExerciseTemplate, value: number) => {
       handleSetsChange(item, value);
     },
-    [selectedExercises]
+    []
   );
 
   const memoizedOnRepsChange = useCallback(
-    (item: MuscleWorkoutModel, value: number) => {
+    (item: ExerciseTemplate, value: number) => {
       handleRepsChange(item, value);
     },
-    [selectedExercises]
+    []
   );
 
-  function saveWorkout() {
+  function saveAndReturn() {
+    if (!weeklyWorkout) return;
+
     const newTags = [
       ...new Set(selectedExercises.map((item) => item.agonistMuscle)),
     ];
 
-    updateWorkout((workout) => {
-      if (!workout || !workout.weeklyWorkout) return workout;
+    const updatedWeeklyWorkout: DailyWorkoutTemplate = {
+      ...weeklyWorkout,
+      description: `${selectedExercises.length} exercises selected`,
+      tags: newTags,
+      registered: true,
+      exercises: selectedExercises,
+    };
 
-      const updatedSessions = [...workout.weeklyWorkout];
+    updateWorkoutPlanBuilder(updatedWeeklyWorkout);
+    router.back();
+    showToast('Workout successfully registered')
+  }
 
-      const index = updatedSessions.findIndex(
-        (session) => session.title === parsedWorkoutTitle
-      );
-
-      if (index !== -1) {
-        updatedSessions[index] = {
-          ...updatedSessions[index],
-          description: "Workout done! tap to update",
-          tags: newTags,
-          registered: true,
-          exercises: selectedExercises,
-        };
-      }
-
-      return {
-        ...workout,
-        weeklyWorkout: updatedSessions,
-      };
-    });
-
-    router.push({
-      pathname: "/DefineWorkoutScreen",
-      params: { toast: "show", workoutTitle: workoutTitle },
-    });
+  if (!weeklyWorkout) {
+    // Handle case where workout is not found
+    return <Screen><Text>Workout not found.</Text></Screen>;
   }
 
   return (
@@ -183,7 +163,7 @@ export default function SelectExercises() {
       </View>
       <Button
         title={"Save workout"}
-        onPress={saveWorkout}
+        onPress={saveAndReturn}
         style={styles.button}
         disabled={!selectedExercises.length}
       />
@@ -208,3 +188,4 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+

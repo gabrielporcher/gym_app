@@ -6,7 +6,7 @@ import {
   Text
 } from "@/components";
 import { colors, radius, spacing } from "@/components/styles";
-import type { MuscleWorkoutModel, WorkoutModel } from "@/constants/ListModels";
+import type { WorkoutPlan } from "@/constants/ListModels";
 import { popularModels } from "@/constants/ListModels";
 import { useWorkoutStore } from "@/contexts/store";
 import { useRouter } from "expo-router";
@@ -15,14 +15,11 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default function CreateWorkoutScreen() {
   const router = useRouter();
-  const { createWorkout } = useWorkoutStore();
+  const { initWorkoutPlanBuilder } = useWorkoutStore();
 
-  function handleItemPressed(item: WorkoutModel | MuscleWorkoutModel) {
-    createWorkout(item as WorkoutModel) //cuidar para não sobrescrever
-    router.push({
-      pathname: "/DefineWorkoutScreen",
-      params: { workouta: JSON.stringify(item) },
-    });
+  function handleItemPressed(item: WorkoutPlan) {
+    initWorkoutPlanBuilder(item);
+    router.push("/DefineWorkoutScreen");
   }
 
   return (
@@ -36,7 +33,7 @@ export default function CreateWorkoutScreen() {
 
         <Text preset="title">Choose Your Training Model</Text>
         <Text preset="subtitle">
-          Select a workout frequency that fits your schedule and goals
+          Select a workout frequency that-fits your schedule and goals
         </Text>
 
         <List
@@ -46,23 +43,22 @@ export default function CreateWorkoutScreen() {
           disableScroll
         />
 
-        
         <Text preset="sectionTitle">Custom</Text>
         <TouchableOpacity
           style={styles.customCard}
           onPress={() =>
             handleItemPressed({
-              icon: 'accessibility',
+              icon: "accessibility",
               title: "Custom",
               description: "Create and customize your own workout model",
-              tags: ['A', 'B'],
+              tags: ["A", "B"],
+              weeklyWorkout: [], // Start with an empty array for custom
             })
           }
         >
           <Icon name="add-outline" size={24} style={styles.addIcon} />
           <Text preset="itemTitle">Create Custom Model</Text>
         </TouchableOpacity>
-        
       </Screen>
     </>
   );
@@ -82,4 +78,9 @@ const styles = StyleSheet.create({
   addIcon: {
     marginRight: spacing.s,
   },
+ 
 });
+
+
+
+

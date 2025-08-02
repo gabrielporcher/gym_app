@@ -3,25 +3,25 @@ import type { Ionicons } from "@expo/vector-icons";
 
 type IoniconName = React.ComponentProps<typeof Ionicons>["name"];
 
-export type PredefinedModelType = {
+export type DailyWorkoutTemplate = {
   icon: IoniconName | IconVariants;
   title: string;
   description: string;
-  exercises?: MuscleWorkoutModel[];
+  exercises?: ExerciseTemplate[];
   tags: string[];
   registered?: boolean;
 };
 
-export type WorkoutModel = {
+export type WorkoutPlan = {
   icon: IoniconName | IconVariants;
   title: string;
   description: string;
   tags: string[];
-  weeklyWorkout?: PredefinedModelType[];
+  weeklyWorkout?: DailyWorkoutTemplate[];
   registered?: boolean;
 };
 
-export const popularModels: WorkoutModel[] = [
+export const popularModels: WorkoutPlan[] = [
   {
     icon: "barbell-outline",
     title: "ABC 2x",
@@ -214,7 +214,7 @@ type MuscleIntensity = {
   intensity: "heavy" | "moderate" | "medium";
 };
 
-export type MuscleWorkoutModel = {
+export type ExerciseTemplate = {
   id: number;
   icon: IoniconName;
   title: string;
@@ -786,3 +786,4 @@ export const exercisesList = [
     ],
   },
 ];
+

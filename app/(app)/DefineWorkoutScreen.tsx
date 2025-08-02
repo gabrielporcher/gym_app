@@ -9,44 +9,41 @@ import {
   View,
 } from "@/components";
 import { colors, spacing } from "@/components/styles";
-import type { WorkoutModel } from "@/constants/ListModels";
+import type { DailyWorkoutTemplate } from "@/constants/ListModels";
 import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useToast } from "@/contexts/ToastContext";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import { useRouter } from "expo-router";
+import React from "react";
 import { StyleSheet } from "react-native";
 
 export default function DefineWorkoutScreen() {
   const router = useRouter();
-  const { toast ,workoutTitle } = useLocalSearchParams();
-  const {user} = useUserStore()
-  const { workout } = useWorkoutStore();
-  const models = workout?.weeklyWorkout ?? [];
+  const { user } = useUserStore();
+  const { workoutPlanBuilder, saveWorkoutPlan } = useWorkoutStore();
   const { showToast } = useToast();
 
-  useEffect(() => {
-    confirmWorkoutCreated()
-  }, [toast])
-
-  function confirmWorkoutCreated() {
-    if(toast == 'show' && workoutTitle) {
-      showToast(`Workout ${workoutTitle} successfully registered`)
-    }
-  }
-
-  function handleItemPressed(item: WorkoutModel | { title: string }) {
+  function handleItemPressed(item: DailyWorkoutTemplate) {
     router.push({
       pathname: "/SelectExercises",
-      params: { workoutTitle: JSON.stringify(item.title) },
+      // Pass only the title as an identifier
+      params: { weeklyWorkoutTitle: item.title },
     });
   }
 
-  function saveWorkout() {
-    //setToastVisibility(!toastVisiblity);
-    showToast('Teste porreta!')
-    console.log(workout)
-    console.log(user.user)
+  async function handleSave() {
+    if (user) {
+      try {
+        await saveWorkoutPlan(user.uid);
+        router.replace("/(app)/MainScreen");
+        showToast("Workout plan saved successfully!");
+      } catch (error) {
+        console.error("Failed to save workout: ", error);
+        showToast("Error saving workout. Please try again.");
+      }
+    }
   }
+
+  const models = workoutPlanBuilder?.weeklyWorkout ?? [];
 
   return (
     <Screen scrollable>
@@ -56,15 +53,17 @@ export default function DefineWorkoutScreen() {
         currentPage="Define workouts"
       />
 
-      <Card style={styles.card}>
-        <View style={styles.section}>
-          <Text preset="buttonSecondary">{workout?.title}</Text>
-          <Text preset="default">{workout?.description}</Text>
-        </View>
-        <View style={[styles.section, styles.icon]}>
-          <Icon name="checkmark-circle" size={28} />
-        </View>
-      </Card>
+      {workoutPlanBuilder && (
+        <Card style={styles.card}>
+          <View style={styles.section}>
+            <Text preset="buttonSecondary">{workoutPlanBuilder.title}</Text>
+            <Text preset="default">{workoutPlanBuilder.description}</Text>
+          </View>
+          <View style={[styles.section, styles.icon]}>
+            <Icon name="checkmark-circle" size={28} />
+          </View>
+        </Card>
+      )}
 
       <Text preset="title">Define your workouts</Text>
       <Text preset="subtitle">
@@ -72,17 +71,16 @@ export default function DefineWorkoutScreen() {
         exercises
       </Text>
 
-      {workout && (
-        <List
-          data={models}
-          title="Popular Models"
-          onPress={handleItemPressed}
-          disableScroll
-        />
-      )}
+      <List
+        data={models}
+        title="Popular Models"
+        onPress={handleItemPressed}
+        disableScroll
+      />
+
       <Button
-        title="Continue"
-        onPress={saveWorkout}
+        title="Save Plan"
+        onPress={handleSave}
         style={styles.button}
         disabled={!models.every((model) => model.registered)}
       />

@@ -4,42 +4,47 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter, useSegments } from "expo-router";
+import { useEffect } from "react";
 import "react-native-reanimated";
 
+import { useUserStore } from "@/contexts/store";
+import { ToastProvider } from "@/contexts/ToastContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { ToastProvider } from "../contexts/ToastContext";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
-  
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+
+  const { user, loading, loadUser } = useUserStore();
+  const router = useRouter();
+  const segments = useSegments();
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  useEffect(() => {
+  if (!loading) {
+    if (user) {
+      router.replace("/(app)/MainScreen");
+    } else {
+      console.log('rediredionando de vorta po começo')
+      router.replace("/"); // volta pro login se não estiver logado
+    }
   }
+}, [user, loading]);
+
+  if (!fontsLoaded || loading) return null;
 
   return (
     <ToastProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={{headerShown: false}} initialRouteName="index">
-          <Stack.Screen
-            name="(app)"
-            options={{
-              headerShown: false,
-              animation: "none",
-            }}
-          />
-          <Stack.Screen
-            name={"index"}
-            options={{
-              title: "Login",
-              headerShadowVisible: false,
-              headerTitleAlign: "center",
-            }}
-          />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(app)" />
+          <Stack.Screen name="index" options={{ title: "Login" }} />
         </Stack>
       </ThemeProvider>
     </ToastProvider>
