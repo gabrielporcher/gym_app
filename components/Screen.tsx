@@ -1,9 +1,10 @@
-import { Icon, Text } from '@/components';
 import { useRouter } from "expo-router";
 import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Icon } from "./Icon";
 import { colors } from "./styles";
+import { Text } from "./Text";
 interface ScreenProps {
   children: React.ReactNode;
   scrollable?: boolean;

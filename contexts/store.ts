@@ -2,7 +2,7 @@ import {
   DailyWorkoutTemplate as DailyWorkoutTemplateType,
   WorkoutPlan as WorkoutPlanType,
 } from "@/constants/ListModels";
-import { User as FirebaseUser, onAuthStateChanged, signOut } from "firebase/auth";
+import { User as FirebaseUser, signOut } from "firebase/auth";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { create } from "zustand";
 import { auth, db } from "../FirebaseConfig"; // Import db and auth from FirebaseConfig
@@ -90,7 +90,7 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
 interface UserState {
   user: FirebaseUser | null;
   loading: boolean;
-  loadUser: () => void;
+  setUser: (user: FirebaseUser | null) => void;
   logoutUser: () => Promise<void>;
 }
 
@@ -98,13 +98,8 @@ export const useUserStore = create<UserState>((set) => ({
   user: null,
   loading: true,
 
-  loadUser: () => {
-    set({ loading: true });
-
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      set({ user: firebaseUser, loading: false });
-      unsubscribe(); // escuta apenas uma vez
-    });
+  setUser: (user) => {
+    set({ user, loading: false });
   },
 
   logoutUser: async () => {
@@ -116,3 +111,4 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 }));
+
