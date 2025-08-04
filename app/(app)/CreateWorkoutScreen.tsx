@@ -24,7 +24,7 @@ export default function CreateWorkoutScreen() {
 
   return (
     <>
-      <Screen scrollable>
+      <Screen scrollable canGoBack>
         <ProgressBar
           totalSteps={4}
           currentStep={1}

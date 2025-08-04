@@ -8,18 +8,18 @@ import { StyleSheet } from "react-native";
 
 export default function MainScreen() {
   const { logoutUser, user } = useUserStore();
-  const {workoutPlan, workoutPlanBuilder, loadWorkoutPlan} = useWorkoutStore();
+  const { workoutPlan, workoutPlanBuilder, loadWorkoutPlan } =
+    useWorkoutStore();
   const router = useRouter();
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       loadWorkoutPlan(user.uid);
     }
-  }, [])
-
+  }, []);
 
   function goToCreateWorkout() {
-    router.push('/(app)/CreateWorkoutScreen')
+    router.push("/(app)/CreateWorkoutScreen");
   }
 
   async function handleLogout() {
@@ -34,22 +34,28 @@ export default function MainScreen() {
 
   return (
     <Screen>
-
       {workoutPlan && (
-              <Card style={styles.card}>
-                <View style={styles.section}>
-                  <Text preset="buttonSecondary">{workoutPlan.title}</Text>
-                  <Text preset="default">{workoutPlan.description}</Text>
-                </View>
-                <View style={[styles.section, styles.icon]}>
-                  <Icon name="checkmark-circle" size={28} />
-                </View>
-              </Card>
-            )}
-        
-            <Button title="Create workout" onPress={goToCreateWorkout} style={{marginVertical: 10}} />
-        <Button title="Logout" onPress={handleLogout} style={{marginVertical: 10}} />
-        
+        <Card style={styles.card}>
+          <View style={styles.section}>
+            <Text preset="buttonSecondary">{workoutPlan.title}</Text>
+            <Text preset="default">{workoutPlan.description}</Text>
+          </View>
+          <View style={[styles.section, styles.icon]}>
+            <Icon name="checkmark-circle" size={28} />
+          </View>
+        </Card>
+      )}
+
+      <Button
+        title="Create workout"
+        onPress={goToCreateWorkout}
+        style={{ marginVertical: 10 }}
+      />
+      <Button
+        title="Logout"
+        onPress={handleLogout}
+        style={{ marginVertical: 10 }}
+      />
     </Screen>
   );
 }

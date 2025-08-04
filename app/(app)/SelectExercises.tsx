@@ -123,8 +123,8 @@ export default function SelectExercises() {
   }
 
   return (
-    <Screen>
-      <View style={{ height: "20%" }}>
+    <Screen canGoBack>
+      <View style={{ height: "19%" }}>
         <ProgressBar
           totalSteps={4}
           currentStep={3}
@@ -150,7 +150,7 @@ export default function SelectExercises() {
         />
       </View>
 
-      <View style={{ height: "72.5%" }}>
+      <View style={{ height: "70%" }}>
         <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
         <List
           selectableList

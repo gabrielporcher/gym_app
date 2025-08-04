@@ -46,7 +46,7 @@ export default function DefineWorkoutScreen() {
   const models = workoutPlanBuilder?.weeklyWorkout ?? [];
 
   return (
-    <Screen scrollable>
+    <Screen scrollable canGoBack>
       <ProgressBar
         totalSteps={4}
         currentStep={2}
