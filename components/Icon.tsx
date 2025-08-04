@@ -1,16 +1,27 @@
 import { colors } from "@/components/styles";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "./Text";
 import { View } from "./View";
 
-export type IconName = React.ComponentProps<typeof Ionicons>["name"] | IconVariants;
+export type IconLibrary = "Ionicons" | "AntDesign" | "MaterialCommunityIcons";
+
+export type IconName =
+  | React.ComponentProps<typeof Ionicons>["name"]
+  | React.ComponentProps<typeof AntDesign>["name"]
+  | React.ComponentProps<typeof MaterialCommunityIcons>["name"]
+  | IconVariants;
 
 export type IconVariants = "A" | "B" | "C" | "D" | "E" | "F" | "G";
 
 interface IconProps {
   name: IconName;
+  library?: IconLibrary;
   color?: string;
   size?: number;
   style?: any;
@@ -22,7 +33,19 @@ function isIconVariant(name: any): name is IconVariants {
   return iconVariants.includes(name);
 }
 
-export function Icon({ name, color = "black", size = 24, style }: IconProps) {
+const iconComponents = {
+  Ionicons,
+  AntDesign,
+  MaterialCommunityIcons,
+};
+
+export function Icon({
+  name,
+  library = "Ionicons",
+  color = "black",
+  size = 24,
+  style,
+}: IconProps) {
   if (isIconVariant(name)) {
     return (
       <View style={[styles.letterIcon, style]}>
@@ -31,7 +54,16 @@ export function Icon({ name, color = "black", size = 24, style }: IconProps) {
     );
   }
 
-  return <Ionicons name={name} size={size} color={color} style={style} />;
+  const IconComponent = iconComponents[library];
+
+  return (
+    <IconComponent
+      name={name as any}
+      size={size}
+      color={color}
+      style={style}
+    />
+  );
 }
 
 const styles = StyleSheet.create({

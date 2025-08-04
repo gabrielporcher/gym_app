@@ -1,6 +1,12 @@
 import { useRouter } from "expo-router";
 import React from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "./Icon";
 import { colors } from "./styles";
@@ -38,7 +44,7 @@ export function Screen({
 }: ScreenProps) {
   const { top, bottom } = useSafeAreaInsets();
   const Container = scrollable ? ScrollViewContainer : ViewContainer;
-  const router = useRouter()
+  const router = useRouter();
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -55,12 +61,19 @@ export function Screen({
           {canGoBack && (
             <TouchableOpacity
               onPress={() => router.back()}
-              style={{marginBottom: 12, flexDirection: 'row', alignItems: 'center'}}
+              style={{
+                marginBottom: 12,
+                flexDirection: "row",
+                alignItems: "center",
+              }}
             >
-              <Icon name="arrow-back" color="primary" />
-              <Text preset='itemTitleThin'>
-                Back
-              </Text>
+              <Icon
+                name="chevron-left"
+                color="primary"
+                library="MaterialCommunityIcons"
+                style={{ marginLeft: -5 }}
+              />
+              <Text preset="itemTitleThin">Back</Text>
             </TouchableOpacity>
           )}
           {children}

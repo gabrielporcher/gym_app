@@ -1,4 +1,3 @@
-// hooks/useAuthListener.ts
 import { auth } from "@/FirebaseConfig";
 import { useUserStore } from "@/contexts/store";
 import { onAuthStateChanged } from "firebase/auth";
