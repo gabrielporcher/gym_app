@@ -29,7 +29,7 @@ export default function RootLayout() {
   useEffect(() => {
   if (!loading) {
     if (user) {
-      router.replace("/(app)/MainScreen");
+      router.replace("/(app)/(tabs)/MainScreen");
     } else {
       console.log('rediredionando de vorta po começo')
       router.replace("/"); // volta pro login se não estiver logado

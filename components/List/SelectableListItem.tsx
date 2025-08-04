@@ -1,4 +1,4 @@
-import { MuscleWorkoutModel } from "@/constants/ListModels";
+import { ExerciseTemplate } from "@/constants/ListModels";
 import Checkbox from "expo-checkbox";
 import React from "react";
 import { TouchableOpacity } from "react-native";
@@ -11,8 +11,8 @@ import { colors } from "../styles";
 import { selectableListItemStyles as styles } from "./styles";
 
 interface SelectableListProps {
-  item: MuscleWorkoutModel;
-  onPress?: (item: MuscleWorkoutModel) => void;
+  item: ExerciseTemplate;
+  onPress?: (item: ExerciseTemplate) => void;
   isSelected?: boolean;
   sets?: number;
   reps?: number;
@@ -56,7 +56,7 @@ function SelectableListItemComponent({
           <Checkbox
             style={styles.checkBox}
             value={isSelected}
-            color={isSelected ? colors.primary : undefined}
+            color={isSelected ? colors.active : undefined}
             onValueChange={() => onPress?.(item)}
           />
         </View>

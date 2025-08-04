@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.quinary,
   },
   selected: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.active,
   },
   heavy: {
     backgroundColor: colors.primary,

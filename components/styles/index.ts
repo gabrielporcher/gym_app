@@ -19,7 +19,10 @@ export const colors = {
   green: '#9FC5A2',
   yellow: '#E7D88F',
   blue: '#A2B8E0',
-  white: '#FFF'
+  white: '#FFF',
+  active: '#000',
+  disabled: '#aeaeb2',
+  inactive: '#aeaeb2'
 };
 
 export const spacing = {

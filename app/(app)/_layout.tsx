@@ -11,7 +11,7 @@ export default function AppLayout() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="MainScreen" options={{ title: "Start page" }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
         name="CreateWorkoutScreen"
         options={{ title: "Create Workout" }}

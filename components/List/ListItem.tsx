@@ -1,4 +1,4 @@
-import { PredefinedModelType, WorkoutModel } from "@/constants/ListModels";
+import { DailyWorkoutTemplate, WorkoutPlan } from "@/constants/ListModels";
 import { TouchableOpacity } from "react-native";
 import { Chip } from "../Chip";
 import { Icon } from "../Icon";
@@ -8,8 +8,8 @@ import { colors } from "../styles";
 import { listItemStyles as styles } from "./styles";
 
 interface ListItemProps {
-  item: WorkoutModel | PredefinedModelType;
-  onPress?: (item: WorkoutModel | PredefinedModelType) => void;
+  item: WorkoutPlan | DailyWorkoutTemplate;
+  onPress?: (item: WorkoutPlan | DailyWorkoutTemplate) => void;
 }
 
 export function ListItem({ item, onPress }: ListItemProps) {

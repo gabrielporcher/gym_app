@@ -26,7 +26,7 @@ export function Button({
       style={[
         styles.button,
         style,
-        { backgroundColor: disabled ? colors.tertiary : colors.primary },
+        { backgroundColor: disabled ? colors.disabled : colors.active },
       ]}
       onPress={onPress}
       disabled={disabled}

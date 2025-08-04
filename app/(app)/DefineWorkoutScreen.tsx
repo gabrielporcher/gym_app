@@ -34,7 +34,7 @@ export default function DefineWorkoutScreen() {
     if (user) {
       try {
         await saveWorkoutPlan(user.uid);
-        router.replace("/(app)/MainScreen");
+        router.replace("/(app)/(tabs)/MainScreen");
         showToast("Workout plan saved successfully!");
       } catch (error) {
         console.error("Failed to save workout: ", error);
