@@ -15,6 +15,7 @@ interface ScreenProps {
   children: React.ReactNode;
   scrollable?: boolean;
   canGoBack?: boolean;
+  backgroundColor?: string;
 }
 
 interface Props {
@@ -41,6 +42,7 @@ export function Screen({
   children,
   scrollable,
   canGoBack = false,
+  backgroundColor = colors.background
 }: ScreenProps) {
   const { top, bottom } = useSafeAreaInsets();
   const Container = scrollable ? ScrollViewContainer : ViewContainer;
@@ -50,7 +52,7 @@ export function Screen({
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <Container backgroundColor={colors.background}>
+      <Container backgroundColor={backgroundColor}>
         <View
           style={{
             paddingHorizontal: 20,
