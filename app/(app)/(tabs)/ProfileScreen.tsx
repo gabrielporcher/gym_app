@@ -1,11 +1,29 @@
-import { Screen, Text, View } from "@/components"
+import { Button, Screen } from "@/components";
+import { useUserStore } from "@/contexts/store";
+import { auth } from "@/FirebaseConfig";
+import { useRouter } from "expo-router";
 
 export default function ProfileScreen() {
-    return (
-        <Screen>
-            <View style={{backgroundColor: 'orange', padding: 15}}>
-                <Text>Profile screen</Text>
-            </View>
-        </Screen>
-    )
+  const { logoutUser } = useUserStore();
+  const router = useRouter();
+
+  async function handleLogout() {
+    try {
+      await auth.signOut();
+      await logoutUser();
+      router.replace("/");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  }
+
+  return (
+    <Screen>
+      <Button
+        title="Logout"
+        onPress={handleLogout}
+        style={{ marginVertical: 10 }}
+      />
+    </Screen>
+  );
 }

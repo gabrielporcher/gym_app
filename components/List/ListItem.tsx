@@ -29,7 +29,7 @@ export function ListItem({ item, onPress }: ListItemProps) {
       >
         <Icon name={item.icon} style={styles.icon} />
         <View style={styles.itemTextContainer}>
-          <Text preset="itemTitle">{item.title}</Text>
+          <Text preset="itemTitle">Workout {item.title}</Text>
           <Text preset="itemDescription">{item.description}</Text>
           <View style={styles.chipContainer}>
             {item?.tags?.map((tag) => (

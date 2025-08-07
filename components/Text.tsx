@@ -14,7 +14,8 @@ export type TextVariants =
   | "buttonSecondary"
   | "defaultLight"
   | "defaultDark"
-  | "itemTitleThin";
+  | "itemTitleThin"
+  | 'link';
 
 interface TextProps {
   children?: React.ReactNode;
@@ -97,4 +98,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: colors.primary,
   },
+  link: {
+    fontSize: 16,
+    fontWeight: 500,
+    letterSpacing: 0.25,
+    color: colors.primary,
+    textDecorationLine: 'underline'
+  }
 });

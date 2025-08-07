@@ -26,15 +26,12 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!loading) {
-      console.log('CHAMANDO AQUI RERE-DEDER')
       if (user) {
         if (!pathname.startsWith("/(app)")) {
           router.replace("/(app)/(tabs)/MainScreen");
         }
       } else {
-        console.log('caindo no else')
         if (pathname !== "/") {
-          console.log('jogando pro root')
           router.replace("/");
         }
       }

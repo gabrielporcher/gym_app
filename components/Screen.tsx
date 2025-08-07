@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -16,11 +17,13 @@ interface ScreenProps {
   scrollable?: boolean;
   canGoBack?: boolean;
   backgroundColor?: string;
+  centralize?: boolean;
 }
 
 interface Props {
   children?: React.ReactNode;
   backgroundColor: string;
+  center?: boolean;
 }
 
 function ScrollViewContainer({ children, backgroundColor }: Props) {
@@ -34,15 +37,25 @@ function ScrollViewContainer({ children, backgroundColor }: Props) {
   );
 }
 
-function ViewContainer({ children, backgroundColor }: Props) {
-  return <View style={{ backgroundColor, flex: 1 }}>{children}</View>;
+function ViewContainer({ children, backgroundColor, center = false }: Props) {
+  return (
+    <View
+      style={[
+        { backgroundColor, flex: 1 },
+        center ? styles.centralizedContainer : styles.container,
+      ]}
+    >
+      {children}
+    </View>
+  );
 }
 
 export function Screen({
   children,
   scrollable,
   canGoBack = false,
-  backgroundColor = colors.background
+  backgroundColor = colors.background,
+  centralize = false,
 }: ScreenProps) {
   const { top, bottom } = useSafeAreaInsets();
   const Container = scrollable ? ScrollViewContainer : ViewContainer;
@@ -52,7 +65,7 @@ export function Screen({
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <Container backgroundColor={backgroundColor}>
+      <Container backgroundColor={backgroundColor} center={centralize}>
         <View
           style={{
             paddingHorizontal: 20,
@@ -63,17 +76,13 @@ export function Screen({
           {canGoBack && (
             <TouchableOpacity
               onPress={() => router.back()}
-              style={{
-                marginBottom: 12,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
+              style={styles.backButton}
             >
               <Icon
                 name="chevron-left"
                 color="primary"
                 library="MaterialCommunityIcons"
-                style={{ marginLeft: -5 }}
+                style={styles.icon}
               />
               <Text preset="itemTitleThin">Back</Text>
             </TouchableOpacity>
@@ -84,3 +93,21 @@ export function Screen({
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+
+  centralizedContainer: {
+    justifyContent: "center",
+  },
+
+  backButton: {
+    marginBottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  icon: {
+    marginLeft: -5,
+  },
+});

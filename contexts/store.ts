@@ -5,10 +5,10 @@ import {
 import { User as FirebaseUser, signOut } from "firebase/auth";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { create } from "zustand";
-import { auth, db } from "../FirebaseConfig"; // Import db and auth from FirebaseConfig
+import { auth, db } from "../FirebaseConfig";
 
 interface WorkoutState {
-  workoutPlan: WorkoutPlanType | null; // The currently saved workout plan
+  workoutPlan: WorkoutPlanType | null;
   workoutPlanBuilder: WorkoutPlanType | null; // The workout plan being created/edited
   loadWorkoutPlan: (userId: string) => Promise<void>;
   initWorkoutPlanBuilder: (template: WorkoutPlanType) => void;

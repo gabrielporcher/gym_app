@@ -1,10 +1,15 @@
-import { Button, Screen, TextInput } from "@/components";
-import { spacing } from "@/components/styles";
-import { useToast } from "@/contexts/ToastContext";
 import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from "@react-native-google-signin/google-signin";
+  Button,
+  Icon,
+  IconName,
+  Screen,
+  Text,
+  TextInput,
+  View,
+} from "@/components";
+import { colors, radius, spacing, typography } from "@/components/styles";
+import { useToast } from "@/contexts/ToastContext";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useRouter } from "expo-router";
 import { FirebaseError } from "firebase/app";
 import {
@@ -14,8 +19,15 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { auth } from "../FirebaseConfig";
+
+interface SocialButtonProps {
+  title: string;
+  icon: IconName;
+  color?: string;
+  onPress: () => void;
+}
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -64,39 +76,94 @@ export default function LoginScreen() {
   };
 
   return (
-    <Screen>
-        <TextInput
-          title={"Email"}
-          placeholder="example@email.com"
-          icon="person"
-          onChangeText={setEmail}
+    <Screen centralize>
+      <TextInput
+        title={"Email"}
+        placeholder="example@email.com"
+        icon="person"
+        onChangeText={setEmail}
+      />
+      <TextInput
+        title={"Password"}
+        placeholder="Password"
+        icon="key"
+        secureTextEntry
+        onChangeText={setPassword}
+      />
+      <Button
+        title="Login"
+        onPress={() => authUser(false)}
+        style={styles.button}
+        isLoading={loading}
+      />
+
+      <View style={styles.socialContainer}>
+        <SocialButton
+          title="Google"
+          icon="google"
+          color={colors.blue}
+          onPress={loginWithGoogle}
         />
-        <TextInput
-          title={"Password"}
-          placeholder="Password"
-          icon="key"
-          //secureTextEntry
-          onChangeText={setPassword}
+        <SocialButton
+          title="Apple"
+          icon="apple1"
+          color={colors.green}
+          onPress={loginWithGoogle}
         />
-        <Button
-          title="Login"
-          onPress={() => authUser(false)}
-          style={styles.button}
-          isLoading={loading}
-        />
-        <Button
-          title="Create account"
-          onPress={() => authUser(true)}
-          style={styles.button}
-          isLoading={loading}
-        />
-        <GoogleSigninButton onPress={loginWithGoogle} />
+      </View>
+
+      <Text preset="link" style={styles.linkText}>Sign up</Text>
     </Screen>
+  );
+}
+
+function SocialButton({
+  title,
+  icon,
+  color = colors.quinary,
+  onPress,
+}: SocialButtonProps) {
+  return (
+    <TouchableOpacity
+      style={[styles.socialButton, { borderColor: color }]}
+      onPress={onPress}
+    >
+      <Icon library="AntDesign" name={icon} color={color} size={28} />
+      <Text style={styles.socialButtonText}>{title}</Text>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
     marginVertical: spacing.s,
+  },
+
+  socialContainer: {
+    flexDirection: "row",
+    gap: 10,
+  },
+
+  socialButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderRadius: radius.regular,
+    paddingVertical: spacing.m,
+    flex: 1,
+  },
+
+  socialButtonText: {
+    ...typography.body,
+    marginLeft: spacing.s,
+    fontWeight: "500",
+    color: colors.primary,
+  },
+
+  linkText: {
+    textAlign: "center",
+    marginTop: spacing.xxxl,
   },
 });

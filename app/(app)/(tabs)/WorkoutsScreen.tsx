@@ -1,11 +1,61 @@
-import { Screen, Text, View } from "@/components"
+import { Button, Card, Icon, Screen, Text, View } from "@/components";
+import { colors, spacing } from "@/components/styles";
+import { useWorkoutStore } from "@/contexts/store";
+import { useRouter } from "expo-router";
+import { StyleSheet } from "react-native";
 
 export default function WorkoutsScreen() {
-    return (
-        <Screen>
-            <View style={{Background: 'green', padding: 15}}>
-                <Text>Workouts screen</Text>
-            </View>
-        </Screen>
-    )
+  const { workoutPlan, workoutPlanBuilder, loadWorkoutPlan } =
+    useWorkoutStore();
+  const router = useRouter();
+
+  function goToCreateWorkout() {
+    router.push("/(app)/CreateWorkoutScreen");
+  }
+  return (
+    <Screen>
+      <Text preset="title">Active workouts</Text>
+      <Text preset="subtitle">Select and modify your workout</Text>
+      {workoutPlan ? (
+        <Card style={styles.card}>
+          <View style={styles.section}>
+            <Text preset="buttonSecondary">{workoutPlan.title}</Text>
+            <Text preset="default">{workoutPlan.description}</Text>
+          </View>
+          <View style={[styles.section, styles.icon]}>
+            <Icon name="checkmark-circle" size={28} />
+          </View>
+        </Card>
+      ) : (
+        <View>
+          <Text preset="subtitle">Looks like you don't have any workout registered.</Text>
+          <Button
+            title="Create workout"
+            onPress={goToCreateWorkout}
+            style={{ marginVertical: 10 }}
+          />
+        </View>
+      )}
+    </Screen>
+  );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    marginTop: 24,
+    padding: spacing.card,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.quinary,
+  },
+  section: {
+    flex: 1,
+    backgroundColor: colors.quinary,
+  },
+  icon: {
+    alignItems: "flex-end",
+  },
+  button: {
+    marginTop: spacing.m,
+  },
+});
