@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Pressable, TextInput as RNTextInput, StyleSheet } from "react-native";
 import { Icon, IconName } from "./Icon";
-import { colors, radius, spacing } from "./styles";
+import { colors, miscellaneous, radius, spacing } from "./styles";
 import { Text } from "./Text";
 
 interface SearchProps {
@@ -33,11 +33,11 @@ export function TextInput({
         </Text>
       )}
       <Pressable onPress={focusInput} style={styles.inputContainer}>
-        {!title && <Icon name={icon} color={colors.defaultText} />}
+        {!title && <Icon name={icon} color={colors.placeholderText} />}
         <RNTextInput
           onChangeText={onChangeText}
           ref={inputRef}
-          placeholderTextColor={colors.defaultText}
+          placeholderTextColor={colors.placeholderText}
           placeholder={placeholder}
           secureTextEntry={secureTextEntry}
           style={styles.textInput}
@@ -52,14 +52,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: spacing.s,
     paddingVertical: 12,
-    backgroundColor: colors.white,
-    borderColor: colors.quinary,
+    backgroundColor: colors.bgWhiteTop,
+    borderColor: colors.bgWhiteBottom,
     borderRadius: radius.regular,
     flexDirection: "row",
     marginVertical: 4,
     marginBottom: spacing.m,
     gap: 10,
-
+    ...miscellaneous.shadow
     
   },
 

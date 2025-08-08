@@ -38,7 +38,6 @@ export function Button({
 
 const styles = StyleSheet.create({
   button: {
-    //backgroundColor: colors.primary,
     paddingVertical: spacing.m,
     paddingHorizontal: spacing.l,
     borderRadius: radius.regular,

@@ -48,18 +48,18 @@ const styles = StyleSheet.create({
     borderRadius: radius.round,
   },
   default: {
-    backgroundColor: colors.quinary,
+    backgroundColor: colors.midShade,
   },
   selected: {
     backgroundColor: colors.active,
   },
   heavy: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.darkest,
   },
   moderate: {
-    backgroundColor: colors.tertiary,
+    backgroundColor: colors.inactive,
   },
   medium: {
-    backgroundColor: colors.quinary,
+    backgroundColor: colors.midShade,
   },
 });

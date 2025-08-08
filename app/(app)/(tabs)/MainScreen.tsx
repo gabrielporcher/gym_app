@@ -1,10 +1,8 @@
 import { Button, Screen, Text } from "@/components";
 import { ListItem } from "@/components/List/ListItem";
-import { colors, spacing } from "@/components/styles";
 import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
-import { StyleSheet } from "react-native";
 
 export default function MainScreen() {
   const { logoutUser, user } = useUserStore();
@@ -41,23 +39,3 @@ export default function MainScreen() {
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    marginTop: 24,
-    padding: spacing.card,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.quinary,
-  },
-  section: {
-    flex: 1,
-    backgroundColor: colors.quinary,
-  },
-  icon: {
-    alignItems: "flex-end",
-  },
-  button: {
-    marginTop: spacing.m,
-  },
-});

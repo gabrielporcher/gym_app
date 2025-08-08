@@ -4,7 +4,7 @@ import { Chip } from "../Chip";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { View } from "../View";
-import { colors } from "../styles";
+import { colors, miscellaneous } from "../styles";
 import { listItemStyles as styles } from "./styles";
 
 interface ListItemProps {
@@ -14,7 +14,10 @@ interface ListItemProps {
 
 export function ListItem({ item, onPress }: ListItemProps) {
   return (
-    <TouchableOpacity onPress={() => onPress?.(item)}>
+    <TouchableOpacity
+      onPress={() => onPress?.(item)}
+      style={!item.registered ? miscellaneous.shadowWrapper : {}}
+    >
       <View
         key={item.title}
         style={[
@@ -22,8 +25,8 @@ export function ListItem({ item, onPress }: ListItemProps) {
           {
             backgroundColor:
               "registered" in item && item.registered
-                ? colors.quinary
-                : "transparent",
+                ? colors.bgGray
+                : colors.bgWhiteTop,
           },
         ]}
       >
@@ -49,7 +52,7 @@ export function ListItem({ item, onPress }: ListItemProps) {
           name={
             item.registered ? "checkmark-circle" : "chevron-forward-outline"
           }
-          color={item.registered ? colors.primary : colors.nonary}
+          color={item.registered ? colors.primary : colors.inactive}
         />
       </View>
     </TouchableOpacity>

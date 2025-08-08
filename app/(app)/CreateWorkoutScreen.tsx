@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   customCard: {
     borderWidth: 1,
     borderStyle: "dashed",
-    borderColor: colors.octonary,
+    borderColor: colors.dark,
     borderRadius: radius.regular,
     padding: spacing.card,
     flexDirection: "row",

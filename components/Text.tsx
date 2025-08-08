@@ -40,11 +40,11 @@ export function Text({
 const styles = StyleSheet.create({
   default: {
     fontSize: 14,
-    color: colors.defaultText,
+    color: colors.textDarkSecondary,
   },
   defaultBold: {
     fontSize: 14,
-    color: colors.defaultText,
+    color: colors.textDarkSecondary,
     fontWeight: "bold",
   },
   defaultLight: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    color: colors.defaultText,
+    color: colors.textDarkSecondary,
     marginBottom: 16,
   },
   sectionTitle: {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   itemDescription: {
     fontSize: 14,
-    color: colors.defaultText,
+    color: colors.textDarkSecondary,
     marginVertical: 4,
   },
   button: {

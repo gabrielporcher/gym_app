@@ -54,7 +54,7 @@ export function Screen({
   children,
   scrollable,
   canGoBack = false,
-  backgroundColor = colors.background,
+  backgroundColor = colors.bgWhiteMid,
   centralize = false,
 }: ScreenProps) {
   const { top, bottom } = useSafeAreaInsets();
@@ -83,6 +83,7 @@ export function Screen({
                 color="primary"
                 library="MaterialCommunityIcons"
                 style={styles.icon}
+                size={26}
               />
               <Text preset="itemTitleThin">Back</Text>
             </TouchableOpacity>

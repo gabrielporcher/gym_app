@@ -1,5 +1,5 @@
 import { Button, Card, Icon, Screen, Text, View } from "@/components";
-import { colors, spacing } from "@/components/styles";
+import { spacing } from "@/components/styles";
 import { useWorkoutStore } from "@/contexts/store";
 import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
@@ -43,14 +43,11 @@ export default function WorkoutsScreen() {
 const styles = StyleSheet.create({
   card: {
     marginTop: 24,
-    padding: spacing.card,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.quinary,
   },
   section: {
     flex: 1,
-    backgroundColor: colors.quinary,
   },
   icon: {
     alignItems: "flex-end",

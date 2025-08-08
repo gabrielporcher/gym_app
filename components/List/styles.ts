@@ -14,8 +14,8 @@ export const listItemStyles = StyleSheet.create({
     alignItems: "center",
     padding: spacing.card,
     borderRadius: radius.regular,
-    borderColor: colors.quinary,
-    borderWidth: 1.5,
+    borderWidth: 1,
+    borderColor: colors.bgWhiteBottom
   },
   icon: {
     marginRight: spacing.m,
@@ -32,20 +32,14 @@ export const listItemStyles = StyleSheet.create({
 });
 
 export const selectableListItemStyles = StyleSheet.create({
-  unselectedContainer: {
-    borderRadius: radius.regular,
-    borderColor: colors.quinary,
-    borderWidth: 1.5,
-  },
-  selectedContainer: {
-    backgroundColor: colors.quinary,
-    borderRadius: radius.regular,
-  },
   listItem: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     padding: spacing.card,
+    borderRadius: radius.regular,
+    borderWidth: 1,
+    borderColor: colors.bgWhiteBottom
   },
   firstContainer: {
     flex: 1,

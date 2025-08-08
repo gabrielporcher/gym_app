@@ -32,7 +32,7 @@ export function ProgressBar({
 const styles = StyleSheet.create({
   container: {
     height: 4,
-    backgroundColor: colors.quinary,
+    backgroundColor: colors.midShade,
     borderRadius: radius.smooth,
   },
   progress: {

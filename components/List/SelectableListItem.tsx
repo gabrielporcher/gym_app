@@ -4,10 +4,9 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Chip } from "../Chip";
 import { Icon } from "../Icon";
-import { IntegerInput } from "../IntegerInput";
 import { Text } from "../Text";
 import { View } from "../View";
-import { colors } from "../styles";
+import { colors, miscellaneous } from "../styles";
 import { selectableListItemStyles as styles } from "./styles";
 
 interface SelectableListProps {
@@ -32,9 +31,14 @@ function SelectableListItemComponent({
   return (
     <TouchableOpacity
       onPress={() => onPress?.(item)}
-      style={isSelected ? styles.selectedContainer : styles.unselectedContainer}
+      style={!isSelected ? miscellaneous.shadowWrapper : {}}
     >
-      <View style={styles.listItem}>
+      <View
+        style={[
+          styles.listItem,
+          { backgroundColor: isSelected ? colors.bgGray : colors.bgWhiteTop },
+        ]}
+      >
         <View style={styles.firstContainer}>
           <Icon name={item.icon} size={30} style={styles.icon} />
         </View>
@@ -61,26 +65,6 @@ function SelectableListItemComponent({
           />
         </View>
       </View>
-      {isSelected && (
-        <View style={styles.expandedContainer}>
-          <View style={styles.expandedSection}>
-            <IntegerInput
-              title="Sets"
-              iconName="time"
-              value={sets}
-              onChange={(v) => onSetsChange?.(v)}
-            />
-          </View>
-          <View style={styles.expandedSection}>
-            <IntegerInput
-              title="Reps"
-              iconName="repeat"
-              value={reps}
-              onChange={(v) => onRepsChange?.(v)}
-            />
-          </View>
-        </View>
-      )}
     </TouchableOpacity>
   );
 }

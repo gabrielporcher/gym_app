@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "@/components";
-import { colors, spacing } from "@/components/styles";
+import { spacing } from "@/components/styles";
 import type { DailyWorkoutTemplate } from "@/constants/ListModels";
 import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useToast } from "@/contexts/ToastContext";
@@ -91,14 +91,11 @@ export default function DefineWorkoutScreen() {
 const styles = StyleSheet.create({
   card: {
     marginTop: 24,
-    padding: spacing.card,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.quinary,
   },
   section: {
     flex: 1,
-    backgroundColor: colors.quinary,
   },
   icon: {
     alignItems: "flex-end",

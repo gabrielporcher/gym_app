@@ -120,7 +120,7 @@ export default function LoginScreen() {
 function SocialButton({
   title,
   icon,
-  color = colors.quinary,
+  color = colors.light,
   onPress,
 }: SocialButtonProps) {
   return (
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.white,
+    backgroundColor: colors.bgWhiteTop,
     borderWidth: 1,
     borderRadius: radius.regular,
     paddingVertical: spacing.m,
