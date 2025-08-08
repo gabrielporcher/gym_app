@@ -13,20 +13,12 @@ interface SelectableListProps {
   item: ExerciseTemplate;
   onPress?: (item: ExerciseTemplate) => void;
   isSelected?: boolean;
-  sets?: number;
-  reps?: number;
-  onSetsChange?: (value: number) => void;
-  onRepsChange?: (value: number) => void;
 }
 
 function SelectableListItemComponent({
   item,
   onPress,
   isSelected = false,
-  sets = 3,
-  reps = 8,
-  onSetsChange,
-  onRepsChange,
 }: SelectableListProps) {
   return (
     <TouchableOpacity
@@ -76,8 +68,6 @@ function areEqual(
 ) {
   return (
     prevProps.isSelected === nextProps.isSelected &&
-    prevProps.sets === nextProps.sets &&
-    prevProps.reps === nextProps.reps &&
     prevProps.item.id === nextProps.item.id
   );
 }

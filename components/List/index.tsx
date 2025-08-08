@@ -1,4 +1,8 @@
-import { DailyWorkoutTemplate, ExerciseTemplate, WorkoutPlan } from "@/constants/ListModels";
+import {
+  DailyWorkoutTemplate,
+  ExerciseTemplate,
+  WorkoutPlan,
+} from "@/constants/ListModels";
 import React from "react";
 import { FlatList } from "react-native";
 import { Text } from "../Text";
@@ -8,7 +12,9 @@ import { listStyles as styles } from "./styles";
 
 interface ListProps {
   title?: string;
-  onPress?: (item: WorkoutPlan | ExerciseTemplate | DailyWorkoutTemplate) => void;
+  onPress?: (
+    item: WorkoutPlan | ExerciseTemplate | DailyWorkoutTemplate
+  ) => void;
   data: any[];
   disableScroll?: boolean;
   selectableList?: boolean;
@@ -24,25 +30,9 @@ export function List({
   disableScroll = false,
   selectableList = false,
   selectedItems = [],
-  onSetsChange,
-  onRepsChange,
 }: ListProps) {
   function isSelected(item: ExerciseTemplate) {
     return selectedItems.some((selectedItem) => selectedItem.id === item.id);
-  }
-
-  function getSets(item: ExerciseTemplate) {
-    const selectedItem = selectedItems.find(
-      (selectedItem) => selectedItem.id === item.id
-    );
-    return selectedItem?.series || 1;
-  }
-
-  function getReps(item: ExerciseTemplate) {
-    const selectedItem = selectedItems.find(
-      (selectedItem) => selectedItem.id === item.id
-    );
-    return selectedItem?.reps || 1;
   }
 
   return (
@@ -58,10 +48,6 @@ export function List({
               item={item}
               onPress={onPress}
               isSelected={isSelected(item)}
-              sets={getSets(item)}
-              reps={getReps(item)}
-              onSetsChange={(value) => onSetsChange?.(item, value)}
-              onRepsChange={(value) => onRepsChange?.(item, value)}
             />
           ) : (
             <ListItem item={item} onPress={onPress} />

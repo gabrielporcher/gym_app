@@ -17,7 +17,7 @@ import {
 import { useWorkoutStore } from "@/contexts/store";
 import { useToast } from "@/contexts/ToastContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function SelectExercises() {
@@ -70,32 +70,6 @@ export default function SelectExercises() {
   function onChangeText(text: string) {
     setSearchText(text);
   }
-
-  function handleSetsChange(item: ExerciseTemplate, value: number) {
-    setSelectedExercises((prev) =>
-      prev.map((ex) => (ex.id === item.id ? { ...ex, series: value } : ex))
-    );
-  }
-
-  function handleRepsChange(item: ExerciseTemplate, value: number) {
-    setSelectedExercises((prev) =>
-      prev.map((ex) => (ex.id === item.id ? { ...ex, reps: value } : ex))
-    );
-  }
-
-  const memoizedOnSetsChange = useCallback(
-    (item: ExerciseTemplate, value: number) => {
-      handleSetsChange(item, value);
-    },
-    []
-  );
-
-  const memoizedOnRepsChange = useCallback(
-    (item: ExerciseTemplate, value: number) => {
-      handleRepsChange(item, value);
-    },
-    []
-  );
 
   function saveAndReturn() {
     if (!weeklyWorkout) return;
@@ -157,8 +131,6 @@ export default function SelectExercises() {
           data={listData}
           onPress={handleItemPressed}
           selectedItems={selectedExercises}
-          onSetsChange={memoizedOnSetsChange}
-          onRepsChange={memoizedOnRepsChange}
         />
       </View>
       <Button
