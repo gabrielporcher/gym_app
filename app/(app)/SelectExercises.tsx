@@ -1,6 +1,7 @@
 import {
   Button,
   Chip,
+  ConfirmSelectionModal,
   List,
   ProgressBar,
   Screen,
@@ -26,9 +27,13 @@ export default function SelectExercises() {
   const { workoutPlanBuilder, updateWorkoutPlanBuilder } = useWorkoutStore();
   const { showToast } = useToast();
 
-  const weeklyWorkout = useMemo(() => 
-    workoutPlanBuilder?.weeklyWorkout?.find(ww => ww.title === params.weeklyWorkoutTitle)
-  , [workoutPlanBuilder, params.weeklyWorkoutTitle]);
+  const weeklyWorkout = useMemo(
+    () =>
+      workoutPlanBuilder?.weeklyWorkout?.find(
+        (ww) => ww.title === params.weeklyWorkoutTitle
+      ),
+    [workoutPlanBuilder, params.weeklyWorkoutTitle]
+  );
 
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(
     null
@@ -36,6 +41,7 @@ export default function SelectExercises() {
   const [selectedExercises, setSelectedExercises] = useState<
     ExerciseTemplate[]
   >(weeklyWorkout?.exercises || []);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchText, setSearchText] = useState<string>("");
 
   const listData = useMemo(() => {
@@ -74,6 +80,12 @@ export default function SelectExercises() {
   function saveAndReturn() {
     if (!weeklyWorkout) return;
 
+    setIsModalVisible(true);
+  }
+
+  function confirmSave() {
+    if (!weeklyWorkout) return;
+
     const newTags = [
       ...new Set(selectedExercises.map((item) => item.agonistMuscle)),
     ];
@@ -88,12 +100,23 @@ export default function SelectExercises() {
 
     updateWorkoutPlanBuilder(updatedWeeklyWorkout);
     router.back();
-    showToast('Workout successfully registered')
+    showToast("Workout successfully registered");
+  }
+
+  function handleExerciseUpdate(updatedExercise: ExerciseTemplate) {
+    const updatedExercises = selectedExercises.map((ex) =>
+      ex.id === updatedExercise.id ? updatedExercise : ex
+    );
+    setSelectedExercises(updatedExercises);
   }
 
   if (!weeklyWorkout) {
     // Handle case where workout is not found
-    return <Screen><Text>Workout not found.</Text></Screen>;
+    return (
+      <Screen>
+        <Text>Workout not found.</Text>
+      </Screen>
+    );
   }
 
   return (
@@ -105,7 +128,10 @@ export default function SelectExercises() {
           currentPage="Select Exercises"
         />
 
-        <TextInput placeholder="Search specific exercise" onChangeText={onChangeText} />
+        <TextInput
+          placeholder="Search specific exercise"
+          onChangeText={onChangeText}
+        />
 
         <FlatList
           data={muscleGroups}
@@ -125,7 +151,9 @@ export default function SelectExercises() {
       </View>
 
       <View style={{ height: "70%" }}>
-        <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
+        <Text
+          preset="itemTitle"
+        >{`${selectedExercises.length} exercises selected`}</Text>
         <List
           selectableList
           data={listData}
@@ -138,6 +166,13 @@ export default function SelectExercises() {
         onPress={saveAndReturn}
         style={styles.button}
         disabled={!selectedExercises.length}
+      />
+      <ConfirmSelectionModal
+        visible={isModalVisible}
+        onConfirm={confirmSave}
+        onCancel={() => setIsModalVisible(false)}
+        exercises={selectedExercises}
+        onExerciseUpdate={handleExerciseUpdate}
       />
     </Screen>
   );
