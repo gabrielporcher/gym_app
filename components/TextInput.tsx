@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Pressable, TextInput as RNTextInput, StyleSheet } from "react-native";
 import { Icon, IconName } from "./Icon";
-import { colors, miscellaneous, radius, spacing } from "./styles";
+import { colors, miscellaneous, radius, spacing, typography } from "./styles";
 import { Text } from "./Text";
 
 interface SearchProps {
@@ -9,7 +9,7 @@ interface SearchProps {
   placeholder: string;
   icon?: IconName;
   title?: string;
-  secureTextEntry?: boolean
+  secureTextEntry?: boolean;
 }
 
 export function TextInput({
@@ -17,7 +17,7 @@ export function TextInput({
   icon = "search",
   placeholder,
   title = "",
-  secureTextEntry = false
+  secureTextEntry = false,
 }: SearchProps) {
   const inputRef = useRef<RNTextInput>(null);
 
@@ -28,7 +28,7 @@ export function TextInput({
   return (
     <>
       {title && (
-        <Text preset="itemTitle" style={styles.title}>
+        <Text style={styles.title}>
           {title}
         </Text>
       )}
@@ -59,12 +59,14 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     marginBottom: spacing.m,
     gap: 10,
-    ...miscellaneous.shadow
-    
+    ...miscellaneous.shadow,
   },
 
   title: {
+    ...typography.body,
     marginLeft: spacing.s,
+    fontWeight: "500",
+    color: colors.primary,
   },
 
   textInput: {

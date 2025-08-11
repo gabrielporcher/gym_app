@@ -112,7 +112,9 @@ export default function LoginScreen() {
         />
       </View>
 
-      <Text preset="link" style={styles.linkText}>Sign up</Text>
+      <Text preset="link" style={styles.linkText}>
+        Sign up
+      </Text>
     </Screen>
   );
 }
