@@ -20,14 +20,19 @@ export default function MainScreen() {
     router.push("/(app)/CreateWorkoutScreen");
   }
 
-  console.log(workoutPlan?.weeklyWorkout[0])
+  function goToCreateSession() {
+    router.push('/(app)/CreateSessionScreen')
+  }
 
   return (
     <Screen>
-      {workoutPlan && (
+      {workoutPlan && workoutPlan.weeklyWorkout?.[0] && (
         <>
-        <Text preset="title">Treino do dia: </Text>
-        <ListItem item={workoutPlan.weeklyWorkout[0]} />
+          <Text preset="title">Treino do dia: </Text>
+          <ListItem
+            item={workoutPlan.weeklyWorkout[0]}
+            onPress={goToCreateSession}
+          />
         </>
       )}
 

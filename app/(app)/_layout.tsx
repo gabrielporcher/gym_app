@@ -24,6 +24,10 @@ export default function AppLayout() {
         name="SelectExercises"
         options={{ title: "Select Exercises" }}
       />
+      <Stack.Screen
+        name="CreateSessionScreen"
+        options={{ title: "Create workout session" }}
+      />
     </Stack>
   );
 }

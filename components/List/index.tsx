@@ -19,8 +19,6 @@ interface ListProps {
   disableScroll?: boolean;
   selectableList?: boolean;
   selectedItems?: ExerciseTemplate[];
-  onSetsChange?: (item: ExerciseTemplate, value: number) => void;
-  onRepsChange?: (item: ExerciseTemplate, value: number) => void;
 }
 
 export function List({
