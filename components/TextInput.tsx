@@ -1,24 +1,27 @@
 import React, { useRef } from "react";
-import { Pressable, TextInput as RNTextInput, StyleSheet } from "react-native";
+import {
+  Pressable,
+  TextInput as RNTextInput,
+  TextInputProps as RNTextInputProps,
+  StyleSheet,
+} from "react-native";
 import { Icon, IconName } from "./Icon";
 import { colors, miscellaneous, radius, spacing, typography } from "./styles";
 import { Text } from "./Text";
 
-interface SearchProps {
-  onChangeText: (text: string) => void;
-  placeholder: string;
+interface TextInputProps extends RNTextInputProps {
   icon?: IconName;
   title?: string;
-  secureTextEntry?: boolean;
 }
 
 export function TextInput({
+  value,
   onChangeText,
   icon = "search",
   placeholder,
   title = "",
   secureTextEntry = false,
-}: SearchProps) {
+}: TextInputProps) {
   const inputRef = useRef<RNTextInput>(null);
 
   function focusInput() {
@@ -27,14 +30,11 @@ export function TextInput({
 
   return (
     <>
-      {title && (
-        <Text style={styles.title}>
-          {title}
-        </Text>
-      )}
+      {title && <Text style={styles.title}>{title}</Text>}
       <Pressable onPress={focusInput} style={styles.inputContainer}>
         {!title && <Icon name={icon} color={colors.placeholderText} />}
         <RNTextInput
+          value={value}
           onChangeText={onChangeText}
           ref={inputRef}
           placeholderTextColor={colors.placeholderText}

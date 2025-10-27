@@ -82,6 +82,7 @@ export default function LoginScreen() {
         placeholder="example@email.com"
         icon="person"
         onChangeText={setEmail}
+        value={email}
       />
       <TextInput
         title={"Password"}
@@ -89,6 +90,7 @@ export default function LoginScreen() {
         icon="key"
         secureTextEntry
         onChangeText={setPassword}
+        value={password}
       />
       <Button
         title="Login"

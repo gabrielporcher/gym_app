@@ -11,7 +11,12 @@ interface IntegerInputProps {
   iconName: IconName;
 }
 
-export function IntegerInput({ value, onChange, label = '', iconName }: IntegerInputProps) {
+export function IntegerInput({
+  value,
+  onChange,
+  label = "",
+  iconName,
+}: IntegerInputProps) {
   const handleTextChange = (text: string) => {
     const numericValue = parseInt(text.replace(/[^0-9]/g, ""), 10);
     onChange(isNaN(numericValue) ? 0 : numericValue);

@@ -57,12 +57,7 @@ export function Icon({
   const IconComponent = iconComponents[library];
 
   return (
-    <IconComponent
-      name={name as any}
-      size={size}
-      color={color}
-      style={style}
-    />
+    <IconComponent name={name as any} size={size} color={color} style={style} />
   );
 }
 

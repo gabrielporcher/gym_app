@@ -131,6 +131,7 @@ export default function SelectExercises() {
         <TextInput
           placeholder="Search specific exercise"
           onChangeText={onChangeText}
+          value={searchText}
         />
 
         <FlatList
@@ -151,9 +152,7 @@ export default function SelectExercises() {
       </View>
 
       <View style={{ height: "70%" }}>
-        <Text
-          preset="itemTitle"
-        >{`${selectedExercises.length} exercises selected`}</Text>
+        <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
         <List
           selectableList
           data={listData}
@@ -195,4 +194,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-

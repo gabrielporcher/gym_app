@@ -1,15 +1,17 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
 import { ActivityIndicator } from "./ActivityIndicator";
 import { Text } from "./Text";
 import { colors, radius, spacing } from "./styles";
 
-interface ButtonProps {
+interface ButtonProps extends TouchableOpacityProps {
   title: string;
   preset?: "primary" | "secondary";
-  onPress: () => void;
   style?: any;
-  disabled?: boolean;
   isLoading?: boolean;
 }
 
@@ -31,7 +33,11 @@ export function Button({
       onPress={onPress}
       disabled={disabled}
     >
-      {isLoading ? <ActivityIndicator color="secondary" /> : <Text preset="button">{title}</Text>}
+      {isLoading ? (
+        <ActivityIndicator color="secondary" />
+      ) : (
+        <Text preset="button">{title}</Text>
+      )}
     </TouchableOpacity>
   );
 }

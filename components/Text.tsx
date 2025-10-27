@@ -1,5 +1,9 @@
 import React from "react";
-import { Text as DefaultText, StyleSheet } from "react-native";
+import {
+  Text as DefaultText,
+  TextProps as RNTextProps,
+  StyleSheet,
+} from "react-native";
 import { colors } from "./styles";
 
 export type TextVariants =
@@ -15,26 +19,14 @@ export type TextVariants =
   | "defaultLight"
   | "defaultDark"
   | "itemTitleThin"
-  | 'link';
+  | "link";
 
-interface TextProps {
-  children?: React.ReactNode;
-  style?: any;
-  props?: any;
+interface TextProps extends RNTextProps {
   preset?: TextVariants;
 }
 
-export function Text({
-  children,
-  style,
-  props,
-  preset = "default",
-}: TextProps) {
-  return (
-    <DefaultText style={[styles[preset], style]} {...props}>
-      {children}
-    </DefaultText>
-  );
+export function Text({ children, style, preset = "default" }: TextProps) {
+  return <DefaultText style={[styles[preset], style]}>{children}</DefaultText>;
 }
 
 const styles = StyleSheet.create({
@@ -103,6 +95,6 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     letterSpacing: 0.25,
     color: colors.primary,
-    textDecorationLine: 'underline'
-  }
+    textDecorationLine: "underline",
+  },
 });
