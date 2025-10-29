@@ -3,6 +3,15 @@ import type { Ionicons } from "@expo/vector-icons";
 
 type IoniconName = React.ComponentProps<typeof Ionicons>["name"];
 
+export type WorkoutPlan = {
+  icon: IoniconName | IconVariants;
+  title: string;
+  description: string;
+  tags: string[];
+  weeklyWorkout?: DailyWorkoutTemplate[];
+  registered?: boolean;
+};
+
 export type DailyWorkoutTemplate = {
   icon: IoniconName | IconVariants;
   title: string;
@@ -12,13 +21,20 @@ export type DailyWorkoutTemplate = {
   registered?: boolean;
 };
 
-export type WorkoutPlan = {
-  icon: IoniconName | IconVariants;
+export type ExerciseTemplate = {
+  id: number;
+  icon: IoniconName;
   title: string;
-  description: string;
-  tags: string[];
-  weeklyWorkout?: DailyWorkoutTemplate[];
-  registered?: boolean;
+  agonistMuscle: string;
+  synergistMuscles: string[];
+  muscleIntensity: MuscleIntensity[];
+  series?: number;
+  reps?: number;
+};
+
+type MuscleIntensity = {
+  muscle: string;
+  intensity: "heavy" | "moderate" | "medium";
 };
 
 export const popularModels: WorkoutPlan[] = [
@@ -209,23 +225,7 @@ export const muscleGroups: string[] = [
   "Abs",
 ];
 
-type MuscleIntensity = {
-  muscle: string;
-  intensity: "heavy" | "moderate" | "medium";
-};
-
-export type ExerciseTemplate = {
-  id: number;
-  icon: IoniconName;
-  title: string;
-  agonistMuscle: string;
-  synergistMuscles: string[];
-  muscleIntensity: MuscleIntensity[];
-  series?: number;
-  reps?: number;
-};
-
-export const exercisesList = [
+export const exercisesList: ExerciseTemplate[] = [
   {
     id: 1,
     icon: "barbell-outline",
@@ -786,4 +786,3 @@ export const exercisesList = [
     ],
   },
 ];
-

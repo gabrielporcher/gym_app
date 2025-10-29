@@ -1,12 +1,13 @@
 import { Button, Screen, Text } from "@/components";
 import { ListItem } from "@/components/List/ListItem";
+import { DailyWorkoutTemplate } from "@/constants/ListModels";
 import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 
 export default function MainScreen() {
   const { logoutUser, user } = useUserStore();
-  const { workoutPlan, workoutPlanBuilder, loadWorkoutPlan } =
+  const { workoutPlan, workoutPlanBuilder, loadWorkoutPlan, resetWorkoutPlan } =
     useWorkoutStore();
   const router = useRouter();
 
@@ -20,8 +21,8 @@ export default function MainScreen() {
     router.push("/(app)/CreateWorkoutScreen");
   }
 
-  function goToCreateSession() {
-    router.push('/(app)/CreateSessionScreen')
+  function goToCreateSession(item: DailyWorkoutTemplate) {
+    router.push("/(app)/CreateSessionScreen");
   }
 
   return (
@@ -29,10 +30,9 @@ export default function MainScreen() {
       {workoutPlan && workoutPlan.weeklyWorkout?.[0] && (
         <>
           <Text preset="title">Treino do dia: </Text>
-          <ListItem
-            item={workoutPlan.weeklyWorkout[0]}
-            onPress={goToCreateSession}
-          />
+          {workoutPlan.weeklyWorkout.map((item) => (
+            <ListItem item={item} onPress={() => console.log(item)} />
+          ))}
         </>
       )}
 

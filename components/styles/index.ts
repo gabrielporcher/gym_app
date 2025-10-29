@@ -23,14 +23,13 @@ export const colors = {
   disabled: "hsl(0, 0%, 60%)", // no modo escuro deve ser o contrário
   inactive: "hsl(0, 0%, 60%)", // no modo escuro deve ser o contrário
   placeholderText: "hsl(0, 0%, 50%)",
-  
 
   primary: "hsl(0, 0%, 0%)", // no modo escuro deve ser o contrário
   secondary: "hsl(0, 0%, 90%)", // no modo escuro deve ser o contrário
 
   lighter: "hsl(0, 0%, 100%)",
   light: "hsl(0, 0%, 95%)",
-  midShade: 'hsl(0, 0%, 85%)',
+  midShade: "hsl(0, 0%, 85%)",
   dark: "hsl(0, 0%, 10%)",
   darkest: "hsl(0, 0%, 0%)",
 
@@ -95,6 +94,12 @@ export const typography = StyleSheet.create({
   },
 });
 
+export const listStyles = StyleSheet.create({
+  listContainer: {
+    gap: spacing.m,
+  },
+});
+
 export const miscellaneous = StyleSheet.create({
   shadow: {
     //REVER TUDO POIS NO ANDROID SO FUNCIONA ELEVATION
@@ -112,7 +117,7 @@ export const miscellaneous = StyleSheet.create({
   shadowWrapper: {
     backgroundColor: colors.bgWhiteTop,
     elevation: 2, // sombra no Android
-    shadowColor: '#000', // sombra no iOS
+    shadowColor: "#000", // sombra no iOS
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 8,

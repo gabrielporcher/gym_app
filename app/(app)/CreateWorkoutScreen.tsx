@@ -1,17 +1,12 @@
-import {
-  Icon,
-  List,
-  ProgressBar,
-  Screen,
-  Text
-} from "@/components";
-import { colors, radius, spacing } from "@/components/styles";
+import { Icon, ProgressBar, Screen, Text } from "@/components";
+import { ListItem } from "@/components/List/ListItem";
+import { colors, listStyles, radius, spacing } from "@/components/styles";
 import type { WorkoutPlan } from "@/constants/ListModels";
 import { popularModels } from "@/constants/ListModels";
 import { useWorkoutStore } from "@/contexts/store";
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function CreateWorkoutScreen() {
   const router = useRouter();
@@ -36,11 +31,14 @@ export default function CreateWorkoutScreen() {
           Select a workout frequency that-fits your schedule and goals
         </Text>
 
-        <List
+        <Text preset="sectionTitle">Popular models</Text>
+        <FlatList
           data={popularModels}
-          title="Popular Models"
-          onPress={handleItemPressed}
-          disableScroll
+          scrollEnabled={false}
+          contentContainerStyle={listStyles.listContainer}
+          renderItem={({ item, index }) => (
+            <ListItem item={item} onPress={handleItemPressed} />
+          )}
         />
 
         <Text preset="sectionTitle">Custom</Text>
@@ -78,9 +76,4 @@ const styles = StyleSheet.create({
   addIcon: {
     marginRight: spacing.s,
   },
- 
 });
-
-
-
-

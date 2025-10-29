@@ -2,19 +2,19 @@ import {
   Button,
   Card,
   Icon,
-  List,
   ProgressBar,
   Screen,
   Text,
   View,
 } from "@/components";
-import { spacing } from "@/components/styles";
+import { ListItem } from "@/components/List/ListItem";
+import { listStyles, spacing } from "@/components/styles";
 import type { DailyWorkoutTemplate } from "@/constants/ListModels";
 import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useToast } from "@/contexts/ToastContext";
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 
 export default function DefineWorkoutScreen() {
   const router = useRouter();
@@ -71,11 +71,13 @@ export default function DefineWorkoutScreen() {
         exercises
       </Text>
 
-      <List
+      <FlatList
         data={models}
-        title="Popular Models"
-        onPress={handleItemPressed}
-        disableScroll
+        contentContainerStyle={listStyles.listContainer}
+        scrollEnabled={false}
+        renderItem={({ item, index }) => (
+          <ListItem item={item} onPress={handleItemPressed} />
+        )}
       />
 
       <Button

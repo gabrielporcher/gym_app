@@ -2,13 +2,13 @@ import {
   Button,
   Chip,
   ConfirmSelectionModal,
-  List,
   ProgressBar,
   Screen,
   Text,
   TextInput,
 } from "@/components";
-import { spacing } from "@/components/styles";
+import { SelectableListItem } from "@/components/List/SelectableListItem";
+import { listStyles, spacing } from "@/components/styles";
 import {
   DailyWorkoutTemplate,
   exercisesList,
@@ -153,11 +153,19 @@ export default function SelectExercises() {
 
       <View style={{ height: "70%" }}>
         <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
-        <List
-          selectableList
+
+        <FlatList
           data={listData}
-          onPress={handleItemPressed}
-          selectedItems={selectedExercises}
+          contentContainerStyle={listStyles.listContainer}
+          renderItem={({ item, index }) => (
+            <SelectableListItem
+              item={item}
+              onPress={handleItemPressed}
+              isSelected={selectedExercises.some(
+                (selected) => selected.id === item.id
+              )}
+            />
+          )}
         />
       </View>
       <Button

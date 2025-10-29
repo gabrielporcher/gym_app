@@ -9,6 +9,7 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack, usePathname, useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
@@ -22,7 +23,7 @@ export default function RootLayout() {
   const router = useRouter();
   const pathname = usePathname();
 
-  useAuthListener()
+  useAuthListener();
 
   useEffect(() => {
     if (!loading) {
@@ -47,6 +48,7 @@ export default function RootLayout() {
           <Stack.Screen name="(app)" />
           <Stack.Screen name="index" options={{ title: "Login" }} />
         </Stack>
+        <StatusBar style="dark" />
       </ThemeProvider>
     </ToastProvider>
   );

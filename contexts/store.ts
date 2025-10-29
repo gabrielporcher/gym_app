@@ -24,7 +24,7 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   workoutPlanBuilder: null,
 
   loadWorkoutPlan: async (userId: string | undefined) => {
-    if(!userId) return
+    if (!userId) return;
     try {
       const workoutPlanDocRef = doc(db, "workout_plans", userId);
       const workoutPlanSnap = await getDoc(workoutPlanDocRef);
@@ -68,8 +68,25 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
 
     try {
       const workoutPlanDocRef = doc(db, "workout_plans", userId);
-      await setDoc(workoutPlanDocRef, workoutPlanBuilder);
-      set({ workoutPlan: workoutPlanBuilder, workoutPlanBuilder: null }); // Update local state and clear builder
+
+      // remove the registered flags used in editing
+      const cleanedWeeklyWorkout = workoutPlanBuilder.weeklyWorkout?.map(
+        (ww) => ({
+          ...ww,
+          registered: false,
+        })
+      );
+
+      const finalWorkout = {
+        ...workoutPlanBuilder,
+        registered: false, // flag global
+        weeklyWorkout: cleanedWeeklyWorkout,
+      };
+
+      await setDoc(workoutPlanDocRef, finalWorkout);
+
+      // update local state and clean builder
+      set({ workoutPlan: finalWorkout, workoutPlanBuilder: null });
     } catch (error) {
       console.error("Error saving workout plan to Firebase: ", error);
       throw error;
@@ -81,6 +98,7 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
       const workoutPlanDocRef = doc(db, "workout_plans", userId);
       await deleteDoc(workoutPlanDocRef);
       set({ workoutPlan: null });
+      console.log("workout reseted successfully");
     } catch (error) {
       console.error("Error resetting workout plan in Firebase: ", error);
     }
@@ -111,4 +129,3 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 }));
-
