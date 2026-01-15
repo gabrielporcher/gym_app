@@ -10,25 +10,23 @@ import { ListItem } from "./ListItem";
 import { SelectableListItem } from "./SelectableListItem";
 import { listStyles as styles } from "./styles";
 
-interface ListProps {
+interface ListProps<T> {
   title?: string;
-  onPress?: (
-    item: WorkoutPlan | ExerciseTemplate | DailyWorkoutTemplate
-  ) => void;
-  data: any[];
+  onPress?: (item: T) => void;
+  data: T[];
   disableScroll?: boolean;
   selectableList?: boolean;
   selectedItems?: ExerciseTemplate[];
 }
 
-export function List({
+export function List<T>({
   title,
   data,
   onPress,
   disableScroll = false,
   selectableList = false,
   selectedItems = [],
-}: ListProps) {
+}: ListProps<T>) {
   function isSelected(item: ExerciseTemplate) {
     return selectedItems.some((selectedItem) => selectedItem.id === item.id);
   }
@@ -43,12 +41,17 @@ export function List({
         renderItem={({ item, index }) =>
           selectableList ? (
             <SelectableListItem
-              item={item}
-              onPress={onPress}
-              isSelected={isSelected(item)}
+              item={item as ExerciseTemplate}
+              onPress={onPress as (item: ExerciseTemplate) => void}
+              isSelected={isSelected(item as ExerciseTemplate)}
             />
           ) : (
-            <ListItem item={item} onPress={onPress} />
+            <ListItem
+              item={item as WorkoutPlan | DailyWorkoutTemplate}
+              onPress={
+                onPress as (item: WorkoutPlan | DailyWorkoutTemplate) => void
+              }
+            />
           )
         }
       />

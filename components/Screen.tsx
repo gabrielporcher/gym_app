@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
 
   backButton: {
-    marginBottom: 12,
+    marginBottom: 2,
     flexDirection: "row",
     alignItems: "center",
   },

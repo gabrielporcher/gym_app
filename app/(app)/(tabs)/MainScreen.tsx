@@ -1,5 +1,5 @@
-import { Button, Screen, Text } from "@/components";
-import { ListItem } from "@/components/List/ListItem";
+import { Button, List, Screen } from "@/components";
+import { DailyWorkoutTemplate } from "@/constants/ListModels";
 import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
@@ -20,17 +20,21 @@ export default function MainScreen() {
     router.push("/(app)/CreateWorkoutScreen");
   }
 
-  function goToCreateSession() {
-    router.push('/(app)/CreateSessionScreen')
+  function goToCreateSession(item: DailyWorkoutTemplate) {
+    router.push({
+      pathname: "/(app)/CreateSessionScreen",
+      // Pass only the title as an identifier
+      params: { workout: JSON.stringify(item) },
+    });
   }
 
   return (
     <Screen>
-      {workoutPlan && workoutPlan.weeklyWorkout?.[0] && (
+      {workoutPlan && workoutPlan.weeklyWorkout?.length && (
         <>
-          <Text preset="title">Treino do dia: </Text>
-          <ListItem
-            item={workoutPlan.weeklyWorkout[0]}
+          <List
+            data={workoutPlan.weeklyWorkout}
+            title={"Registrar treino"}
             onPress={goToCreateSession}
           />
         </>

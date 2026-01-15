@@ -28,6 +28,10 @@ export default function AppLayout() {
         name="CreateSessionScreen"
         options={{ title: "Create workout session" }}
       />
+      <Stack.Screen
+        name="SessionRegister"
+        options={{ title: "Session Record" }}
+      />
     </Stack>
   );
 }
