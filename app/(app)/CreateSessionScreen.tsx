@@ -1,5 +1,6 @@
-import { List, Screen } from "@/components";
+import { List, ListItem, Screen } from "@/components";
 import { colors, spacing } from "@/components/styles";
+import { DailyWorkoutTemplate } from "@/constants/ListModels";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -20,6 +21,9 @@ export default function CreateSessionScreen() {
       <List
         data={workoutParsed.exercises}
         title={`Workout ${workoutParsed?.title}`}
+        renderItem={({ item }) => (
+          <ListItem item={item as unknown as DailyWorkoutTemplate} />
+        )}
       />
     </Screen>
   );

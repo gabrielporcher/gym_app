@@ -1,10 +1,4 @@
-import {
-  Icon,
-  List,
-  ProgressBar,
-  Screen,
-  Text
-} from "@/components";
+import { Icon, List, ListItem, ProgressBar, Screen, Text } from "@/components";
 import { colors, radius, spacing } from "@/components/styles";
 import type { WorkoutPlan } from "@/constants/ListModels";
 import { popularModels } from "@/constants/ListModels";
@@ -39,7 +33,9 @@ export default function CreateWorkoutScreen() {
         <List
           data={popularModels}
           title="Popular Models"
-          onPress={handleItemPressed}
+          renderItem={({ item }) => (
+            <ListItem item={item} onPress={handleItemPressed} />
+          )}
           disableScroll
         />
 
@@ -78,9 +74,4 @@ const styles = StyleSheet.create({
   addIcon: {
     marginRight: spacing.s,
   },
- 
 });
-
-
-
-

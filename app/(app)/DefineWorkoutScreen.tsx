@@ -3,6 +3,7 @@ import {
   Card,
   Icon,
   List,
+  ListItem,
   ProgressBar,
   Screen,
   Text,
@@ -74,7 +75,9 @@ export default function DefineWorkoutScreen() {
       <List
         data={models}
         title="Popular Models"
-        onPress={handleItemPressed}
+        renderItem={({ item }) => (
+          <ListItem item={item} onPress={handleItemPressed} />
+        )}
         disableScroll
       />
 

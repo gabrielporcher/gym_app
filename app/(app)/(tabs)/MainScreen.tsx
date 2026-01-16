@@ -1,4 +1,4 @@
-import { Button, List, Screen } from "@/components";
+import { Button, List, ListItem, Screen } from "@/components";
 import { DailyWorkoutTemplate } from "@/constants/ListModels";
 import { useUserStore, useWorkoutStore } from "@/contexts/store";
 import { useRouter } from "expo-router";
@@ -35,7 +35,9 @@ export default function MainScreen() {
           <List
             data={workoutPlan.weeklyWorkout}
             title={"Registrar treino"}
-            onPress={goToCreateSession}
+            renderItem={({ item }) => (
+              <ListItem item={item} onPress={goToCreateSession} />
+            )}
           />
         </>
       )}

@@ -5,6 +5,7 @@ import {
   List,
   ProgressBar,
   Screen,
+  SelectableListItem,
   Text,
   TextInput,
 } from "@/components";
@@ -154,10 +155,14 @@ export default function SelectExercises() {
       <View style={{ height: "70%" }}>
         <Text preset="itemTitle">{`${selectedExercises.length} exercises selected`}</Text>
         <List
-          selectableList
           data={listData}
-          onPress={handleItemPressed}
-          selectedItems={selectedExercises}
+          renderItem={({ item }) => (
+            <SelectableListItem
+              item={item as ExerciseTemplate}
+              onPress={handleItemPressed}
+              isSelected={selectedExercises.some((ex) => ex.id === item.id)}
+            />
+          )}
         />
       </View>
       <Button
