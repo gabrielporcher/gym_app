@@ -3,6 +3,7 @@ import { FlatList, FlatListProps, ListRenderItem } from "react-native";
 import { Text } from "../Text";
 import { listStyles as styles } from "./styles";
 
+export * from "./ExerciseListItem";
 export * from "./ListItem";
 export * from "./SelectableListItem";
 

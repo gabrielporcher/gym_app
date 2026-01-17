@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput as RNTextInput, StyleSheet } from "react-native";
-import { Icon, IconName } from "./Icon";
+import { Icon, IconLibrary, IconName } from "./Icon";
 import { View } from "./View";
 import { colors, radius, spacing } from "./styles";
 
@@ -8,6 +8,7 @@ interface IntegerInputProps {
   value: number;
   onChange: (value: number) => void;
   label?: string;
+  library?: IconLibrary;
   iconName: IconName;
 }
 
@@ -15,6 +16,7 @@ export function IntegerInput({
   value,
   onChange,
   label = "",
+  library,
   iconName,
 }: IntegerInputProps) {
   const handleTextChange = (text: string) => {
@@ -24,7 +26,12 @@ export function IntegerInput({
 
   return (
     <View style={styles.container}>
-      <Icon name={iconName} size={20} color={colors.textDarkSecondary} />
+      <Icon
+        name={iconName}
+        library={library}
+        size={25}
+        color={colors.textDarkSecondary}
+      />
       <RNTextInput
         style={styles.input}
         value={value.toString()}
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: colors.textDark,
-    backgroundColor: colors.bgWhiteMid,
+    backgroundColor: colors.bgWhiteBottom,
     borderRadius: radius.regular,
     paddingVertical: spacing.s,
     paddingHorizontal: spacing.s,

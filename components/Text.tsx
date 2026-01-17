@@ -19,7 +19,8 @@ export type TextVariants =
   | "defaultLight"
   | "defaultDark"
   | "itemTitleThin"
-  | "link";
+  | "link"
+  | "integerInput";
 
 interface TextProps extends RNTextProps {
   preset?: TextVariants;
@@ -96,5 +97,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: colors.primary,
     textDecorationLine: "underline",
+  },
+  integerInput: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: colors.textDark,
   },
 });

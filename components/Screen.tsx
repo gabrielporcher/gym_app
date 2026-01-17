@@ -85,7 +85,7 @@ export function Screen({
                 style={styles.icon}
                 size={26}
               />
-              <Text preset="itemTitleThin">Back</Text>
+              <Text preset="itemTitleThin">Voltar</Text>
             </TouchableOpacity>
           )}
           {children}

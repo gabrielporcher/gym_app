@@ -1,11 +1,14 @@
-import { Screen, Text } from "@/components";
+import { CircularProgress, Screen, SessionInput, Text } from "@/components";
 import { useLocalSearchParams } from "expo-router";
 
 export default function SessionRegister() {
-  const params = useLocalSearchParams();
+  const { exercise } = useLocalSearchParams();
+  const exerciseParsed = JSON.parse(exercise as string);
   return (
-    <Screen>
-      <Text>Session</Text>
+    <Screen centralize>
+      <Text>{exerciseParsed.title}</Text>
+      <CircularProgress totalSeries={3} currentSerie={2} />
+      <SessionInput exercise={exerciseParsed} />
     </Screen>
   );
 }
