@@ -66,7 +66,7 @@ export function CircularProgress({
         }}
       >
         <Text preset="itemTitle">{currentSerie}</Text>
-        <Text preset="itemTitle">semana</Text>
+        <Text preset="itemTitle">serie</Text>
       </View>
     </View>
   );

@@ -1,7 +1,8 @@
 import { ExerciseTemplate } from "@/constants/ListModels";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { IntegerInput } from "./IntegerInput";
+import { listStyles } from "./List/styles";
 import { colors, miscellaneous, radius } from "./styles";
 import { Text } from "./Text";
 import { View } from "./View";
@@ -11,23 +12,35 @@ interface Props {
 }
 
 export function SessionInput({ exercise }: Props) {
+  const seriesArray = Array.from(
+    { length: exercise.series as number },
+    (_, index) => index,
+  );
   return (
-    <View style={[miscellaneous.shadowWrapper, styles.container]}>
-      <Text preset="integerInput">1</Text>
-      <IntegerInput
-        label="Kgs"
-        iconName="weight"
-        library="MaterialCommunityIcons"
-        value={10}
-        onChange={(value) => (exercise.series = value)}
-      />
-      <IntegerInput
-        label="Reps"
-        iconName="repeat-outline"
-        value={exercise.reps || 0}
-        onChange={(value) => (exercise.reps = value)}
-      />
-    </View>
+    <FlatList
+      data={seriesArray}
+      keyExtractor={(item) => item.toString()}
+      contentContainerStyle={listStyles.listContainer}
+      style={{ paddingVertical: 10 }}
+      renderItem={({ item, index }) => (
+        <View style={[miscellaneous.shadowWrapper, styles.container]}>
+          <Text preset="integerInput">{index + 1}</Text>
+          <IntegerInput
+            label="Kgs"
+            iconName="weight"
+            library="MaterialCommunityIcons"
+            value={10}
+            onChange={(value) => (exercise.series = value)}
+          />
+          <IntegerInput
+            label="Reps"
+            iconName="repeat-outline"
+            value={exercise.reps || 0}
+            onChange={(value) => (exercise.reps = value)}
+          />
+        </View>
+      )}
+    />
   );
 }
 
