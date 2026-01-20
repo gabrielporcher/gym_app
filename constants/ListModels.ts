@@ -214,6 +214,12 @@ type MuscleIntensity = {
   intensity: "heavy" | "moderate" | "medium";
 };
 
+export type ExerciseSet = {
+  reps: string;
+  weight: string;
+  completed: boolean;
+};
+
 export type ExerciseTemplate = {
   id: number;
   icon: IoniconName;
@@ -223,6 +229,8 @@ export type ExerciseTemplate = {
   muscleIntensity: MuscleIntensity[];
   series?: number;
   reps?: number;
+  setsRecorded?: ExerciseSet[];
+  isCompleted?: boolean;
 };
 
 export const exercisesList = [
@@ -786,4 +794,3 @@ export const exercisesList = [
     ],
   },
 ];
-

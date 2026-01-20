@@ -1,6 +1,7 @@
-import { ExerciseTemplate } from "@/constants/ListModels";
+import { ExerciseSet, ExerciseTemplate } from "@/constants/ListModels";
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { Icon } from "./Icon";
 import { IntegerInput } from "./IntegerInput";
 import { listStyles } from "./List/styles";
 import { colors, miscellaneous, radius } from "./styles";
@@ -9,13 +10,16 @@ import { View } from "./View";
 
 interface Props {
   exercise: ExerciseTemplate;
+  onSetChange: (index: number, set: ExerciseSet) => void;
 }
 
-export function SessionInput({ exercise }: Props) {
-  const seriesArray = Array.from(
-    { length: exercise.series as number },
-    (_, index) => index,
+export function SessionInput({ exercise, onSetChange }: Props) {
+  const setsCount = Math.max(
+    exercise.series || 0,
+    (exercise.setsRecorded || []).length,
   );
+
+  const seriesArray = Array.from({ length: setsCount }, (_, index) => index);
   return (
     <FlatList
       data={seriesArray}
@@ -29,15 +33,60 @@ export function SessionInput({ exercise }: Props) {
             label="Kgs"
             iconName="weight"
             library="MaterialCommunityIcons"
-            value={10}
-            onChange={(value) => (exercise.series = value)}
+            value={Number(exercise.setsRecorded?.[index]?.weight || 0)}
+            onChange={(value) => {
+              const currentSet = exercise.setsRecorded?.[index] || {
+                reps: "",
+                weight: "",
+                completed: false,
+              };
+              onSetChange(index, { ...currentSet, weight: value.toString() });
+            }}
           />
           <IntegerInput
             label="Reps"
             iconName="repeat-outline"
-            value={exercise.reps || 0}
-            onChange={(value) => (exercise.reps = value)}
+            value={
+              Number(exercise.setsRecorded?.[index]?.reps) ||
+              Number(exercise.reps) ||
+              0
+            }
+            onChange={(value) => {
+              const currentSet = exercise.setsRecorded?.[index] || {
+                reps: "",
+                weight: "",
+                completed: false,
+              };
+              onSetChange(index, { ...currentSet, reps: value.toString() });
+            }}
           />
+          <TouchableOpacity
+            onPress={() => {
+              const currentSet = exercise.setsRecorded?.[index] || {
+                reps: "",
+                weight: "",
+                completed: false,
+              };
+              onSetChange(index, {
+                ...currentSet,
+                completed: !currentSet.completed,
+              });
+            }}
+          >
+            <Icon
+              name={
+                exercise.setsRecorded?.[index]?.completed
+                  ? "checkmark-circle"
+                  : "ellipse-outline"
+              }
+              color={
+                exercise.setsRecorded?.[index]?.completed
+                  ? "green"
+                  : colors.textDarkSecondary
+              }
+              size={30}
+            />
+          </TouchableOpacity>
         </View>
       )}
     />
