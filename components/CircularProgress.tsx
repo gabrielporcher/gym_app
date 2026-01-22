@@ -1,5 +1,6 @@
 import React from "react";
 import Svg, { Path } from "react-native-svg";
+import { RoundButton } from "./RoundButton";
 import { Text } from "./Text";
 import { View } from "./View";
 
@@ -61,12 +62,13 @@ export function CircularProgress({
       <View
         style={{
           position: "absolute",
-          top: radius / 2,
+          top: radius / 3,
           alignItems: "center",
+          //backgroundColor: "white",
         }}
       >
-        <Text preset="itemTitle">{currentSerie}</Text>
-        <Text preset="itemTitle">serie</Text>
+        <Text preset="title">{currentSerie + 1}ª serie</Text>
+        <RoundButton title="Completar série" />
       </View>
     </View>
   );

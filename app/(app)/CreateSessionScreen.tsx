@@ -1,4 +1,4 @@
-import { Button, ExerciseListItem, List, Screen, Text } from "@/components";
+import { Button, ExerciseListItem, List, Screen } from "@/components";
 import { ExerciseTemplate } from "@/constants/ListModels";
 import { useWorkoutStore } from "@/contexts/store";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -35,11 +35,7 @@ export default function CreateSessionScreen() {
           <ExerciseListItem
             item={item as ExerciseTemplate}
             onPress={goToCreateSession}
-            rightComponent={
-              (item as ExerciseTemplate).isCompleted && (
-                <Text style={{ color: "green", fontSize: 16 }}>DONE</Text>
-              )
-            }
+            done={(item as ExerciseTemplate).isCompleted}
           />
         )}
         ListFooterComponent={

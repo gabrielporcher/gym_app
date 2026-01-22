@@ -24,10 +24,20 @@ export function SessionInput({ exercise, onSetChange }: Props) {
     <FlatList
       data={seriesArray}
       keyExtractor={(item) => item.toString()}
-      contentContainerStyle={listStyles.listContainer}
+      contentContainerStyle={[listStyles.listContainer, { marginTop: 45 }]}
       style={{ paddingVertical: 10 }}
       renderItem={({ item, index }) => (
-        <View style={[miscellaneous.shadowWrapper, styles.container]}>
+        <View
+          style={[
+            miscellaneous.shadowWrapper,
+            styles.container,
+            {
+              backgroundColor: exercise.setsRecorded?.[index]?.completed
+                ? colors.green
+                : colors.bgWhiteTop,
+            },
+          ]}
+        >
           <Text preset="integerInput">{index + 1}</Text>
           <IntegerInput
             label="Kgs"
@@ -100,7 +110,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 12,
-    backgroundColor: colors.bgWhiteTop,
     borderRadius: radius.round,
   },
 });

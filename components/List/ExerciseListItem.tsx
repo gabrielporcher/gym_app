@@ -10,13 +10,13 @@ import { listItemStyles as styles } from "./styles";
 interface ExerciseListItemProps {
   item: ExerciseTemplate;
   onPress?: (item: ExerciseTemplate) => void;
-  rightComponent?: React.ReactNode;
+  done?: boolean;
 }
 
 export function ExerciseListItem({
   item,
   onPress,
-  rightComponent,
+  done = false,
 }: ExerciseListItemProps) {
   return (
     <TouchableOpacity
@@ -48,9 +48,10 @@ export function ExerciseListItem({
             ))}
           </View>
         </View>
-        {rightComponent || (
-          <Icon name={"chevron-forward-outline"} color={colors.inactive} />
-        )}
+        <Icon
+          name={done ? "checkmark-circle" : "chevron-forward-outline"}
+          color={done ? colors.green : colors.inactive}
+        />
       </View>
     </TouchableOpacity>
   );
