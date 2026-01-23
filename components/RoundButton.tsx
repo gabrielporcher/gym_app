@@ -4,13 +4,16 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
 } from "react-native";
-import { Icon } from "./Icon";
+import { Icon, IconLibrary, IconName } from "./Icon";
 import { Text } from "./Text";
+import { View } from "./View";
 import { colors } from "./styles";
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
   style?: any;
+  iconName?: IconName;
+  library?: IconLibrary;
 }
 
 export function RoundButton({
@@ -18,27 +21,35 @@ export function RoundButton({
   onPress,
   style,
   disabled = false,
+  iconName = "check",
+  library = "Ionicons",
 }: ButtonProps) {
   return (
-    <>
+    <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.button, style, { backgroundColor: "green" }]}
+        style={[styles.button, { backgroundColor: "green" }, style]}
         onPress={onPress}
         disabled={disabled}
       >
         <Icon
-          name={"skip-next"}
-          library="MaterialCommunityIcons"
-          size={24}
+          name={iconName}
+          library={library}
+          size={38}
           color={colors.white}
         />
       </TouchableOpacity>
-      <Text preset="buttonSecondary">{title}</Text>
-    </>
+      <Text preset="buttonSecondary" style={{ textAlign: "center" }}>
+        {title}
+      </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    gap: 8,
+  },
   button: {
     borderRadius: 150,
     height: 70,

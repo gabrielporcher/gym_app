@@ -20,11 +20,61 @@ export function SessionInput({ exercise, onSetChange }: Props) {
   );
 
   const seriesArray = Array.from({ length: setsCount }, (_, index) => index);
+
+  const handleWeightChange = (index: number, value: number) => {
+    const currentSet = exercise.setsRecorded?.[index] || {
+      reps: "",
+      weight: "",
+      completed: false,
+    };
+    onSetChange(index, { ...currentSet, weight: value.toString() });
+  };
+
+  const handleRepsChange = (index: number, value: number) => {
+    const currentSet = exercise.setsRecorded?.[index] || {
+      reps: "",
+      weight: "",
+      completed: false,
+    };
+    onSetChange(index, { ...currentSet, reps: value.toString() });
+  };
+
+  const handleCompleteSet = (index: number) => {
+    const currentSet = exercise.setsRecorded?.[index] || {
+      reps: "",
+      weight: "",
+      completed: false,
+    };
+
+    // Determine weight to save: use current input or displayed fallback
+    const weightToSave =
+      currentSet.weight !== ""
+        ? currentSet.weight
+        : Number(exercise.setsRecorded?.[index]?.weight || 0).toString();
+
+    // Determine reps to save: use current input or displayed fallback
+    const repsToSave =
+      currentSet.reps !== ""
+        ? currentSet.reps
+        : (
+            Number(exercise.setsRecorded?.[index]?.reps) ||
+            Number(exercise.reps) ||
+            0
+          ).toString();
+
+    onSetChange(index, {
+      ...currentSet,
+      weight: weightToSave,
+      reps: repsToSave,
+      completed: !currentSet.completed,
+    });
+  };
+
   return (
     <FlatList
       data={seriesArray}
       keyExtractor={(item) => item.toString()}
-      contentContainerStyle={[listStyles.listContainer, { marginTop: 45 }]}
+      contentContainerStyle={[listStyles.listContainer, { marginTop: 70 }]}
       style={{ paddingVertical: 10 }}
       renderItem={({ item, index }) => (
         <View
@@ -44,14 +94,7 @@ export function SessionInput({ exercise, onSetChange }: Props) {
             iconName="weight"
             library="MaterialCommunityIcons"
             value={Number(exercise.setsRecorded?.[index]?.weight || 0)}
-            onChange={(value) => {
-              const currentSet = exercise.setsRecorded?.[index] || {
-                reps: "",
-                weight: "",
-                completed: false,
-              };
-              onSetChange(index, { ...currentSet, weight: value.toString() });
-            }}
+            onChange={(value) => handleWeightChange(index, value)}
           />
           <IntegerInput
             label="Reps"
@@ -61,28 +104,9 @@ export function SessionInput({ exercise, onSetChange }: Props) {
               Number(exercise.reps) ||
               0
             }
-            onChange={(value) => {
-              const currentSet = exercise.setsRecorded?.[index] || {
-                reps: "",
-                weight: "",
-                completed: false,
-              };
-              onSetChange(index, { ...currentSet, reps: value.toString() });
-            }}
+            onChange={(value) => handleRepsChange(index, value)}
           />
-          <TouchableOpacity
-            onPress={() => {
-              const currentSet = exercise.setsRecorded?.[index] || {
-                reps: "",
-                weight: "",
-                completed: false,
-              };
-              onSetChange(index, {
-                ...currentSet,
-                completed: !currentSet.completed,
-              });
-            }}
-          >
+          <TouchableOpacity onPress={() => handleCompleteSet(index)}>
             <Icon
               name={
                 exercise.setsRecorded?.[index]?.completed

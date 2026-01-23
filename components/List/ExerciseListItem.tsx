@@ -28,7 +28,7 @@ export function ExerciseListItem({
         style={[
           styles.listItem,
           {
-            backgroundColor: colors.bgWhiteTop,
+            backgroundColor: done ? colors.green : colors.bgWhiteTop,
           },
         ]}
       >
@@ -50,7 +50,7 @@ export function ExerciseListItem({
         </View>
         <Icon
           name={done ? "checkmark-circle" : "chevron-forward-outline"}
-          color={done ? colors.green : colors.inactive}
+          color={done ? "green" : colors.inactive}
         />
       </View>
     </TouchableOpacity>
